@@ -1,0 +1,40 @@
+{
+  "name": "sad-assignment2",
+  "version": "1.0.0",
+  "description": "The code for the Systems Analysis and Design Assignment 2",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"No tests specified -- yet to be made...\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheBrenny/SAD-assignment2.git"
+  },
+  "contributors": [
+    "Jarod Brennfleck <iam@justbrenny.me>",
+    "Kat Burnett",
+    "Josephine Curtis",
+    "Jack Millar"
+  ],
+  "license": "Copyright (c) 2020 Jarod Brennfleck, Kat Burnett, Josephine Curtis, and Jack Millar",
+  "bugs": {
+    "url": "https://github.com/TheBrenny/SAD-assignment2/issues"
+  },
+  "homepage": "https://github.com/TheBrenny/SAD-assignment2#readme",
+  "private": true,
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^4.1.1",
+    "morgan": "^1.10.0",
+    "scetch": "^1.1.2",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.12",
+    "gulp": "^4.0.2",
+    "gulp-nodemon": "^2.5.0",
+    "gulp-sass": "^4.1.0",
+    "nodemon": "^2.0.4"
+  }
+}
