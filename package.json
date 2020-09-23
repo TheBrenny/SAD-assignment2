@@ -36,5 +36,15 @@
     "gulp-nodemon": "^2.5.0",
     "gulp-sass": "^4.1.0",
     "nodemon": "^2.0.4"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "app/public/views/",
+      "app/public/assets/"
+    ],
+    "watch": [
+      "server.js",
+      "app/"
+    ]
   }
 }
