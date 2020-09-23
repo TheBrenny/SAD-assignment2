@@ -3,6 +3,8 @@ const sass = require('gulp-sass');
 const browserSync = require('browser-sync').create();
 const nodemon = require('gulp-nodemon');
 
+const host = "sadass";
+
 gulp.task("sass", function () {
     return gulp.src("app/public/assets/scss/**/*.scss")
         .pipe(sass().on("error", sass.logError))
@@ -14,7 +16,7 @@ gulp.task("sass", function () {
 
 gulp.task("browserSync", function (cb) {
     return browserSync.init({
-        proxy: "http://sadass/",
+        proxy: `http://${host}`,
         files: ["app/public/assets/**/*.*", "app/public/views/**/*.*"],
         open: false,
         port: 81
@@ -25,10 +27,12 @@ gulp.task("nodemon", function (cb) {
     var started = false;
 
     return nodemon({
-        script: 'hostman.js',
+        script: 'server.js',
         env: {
             "NODE_ENV": 'dev',
-            "GULPING": true
+            "GULPING": true,
+            "IS_VSCODE": true,
+            "HOST": host
         },
     }).on('start', function () {
         // to avoid nodemon being started multiple times
