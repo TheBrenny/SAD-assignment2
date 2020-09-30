@@ -16,7 +16,7 @@ gulp.task("sass", function () {
 
 gulp.task("browserSync", function (cb) {
     return browserSync.init({
-        proxy: `http://${host}`,
+        proxy: `http://${host}/`,
         files: ["app/public/assets/**/*.*", "app/public/views/**/*.*"],
         open: false,
         port: 81
@@ -32,7 +32,8 @@ gulp.task("nodemon", function (cb) {
             "NODE_ENV": 'dev',
             "GULPING": true,
             "IS_VSCODE": true,
-            "HOST": host
+            "HOST": host,
+            "PORT": 80
         },
     }).on('start', function () {
         // to avoid nodemon being started multiple times
