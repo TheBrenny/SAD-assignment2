@@ -18,6 +18,8 @@ From here, you can choose to use the Desktop app or the CLI (command line interf
 
 ## Get an initial copy ***(First time only)***
 
+*This can only be done while you're connected to the internet*
+
 - [Desktop Client Instructions](#clone-desktop-client)
 - [Command Line Instructions](#clone-command-line)
 
@@ -44,6 +46,8 @@ cd ./SAD-assignment2/
 
 ## Grab the latest changes from everyone ***(before you start work)***
 
+*This can only be done while you're connected to the internet*
+
 - [Desktop Client Instructions](#pull-desktop-client)
 - [Command Line Instructions](#pull-command-line)
 
@@ -64,6 +68,8 @@ git pull
 <hr>
 
 ## Track minor changes ***(when you change something minor)***
+
+*This can be done whenever - online and offline!*
 
 Do this as often as you can so we can track all the changes possible! (But if you forget here and there, that's okay!)
 
@@ -89,6 +95,8 @@ git commit -m "Enter your message here 🥳"
 
 ## Give Everyone Your changes ***(when you finish a big chunk of work)***
 
+*This can only be done while you're connected to the internet*
+
 - [Desktop Client Instructions](#push-desktop-client)
 - [Command Line Instructions](#push-command-line)
 
@@ -103,6 +111,8 @@ Enter these commands into your terminal:
 
 ```
 git push
+# Git will do some stuff and upload
+# If there's a merge conflit, try and do it through the Desktop Client, or let me know
 ```
 
 <hr>
