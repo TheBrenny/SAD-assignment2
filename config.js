@@ -7,6 +7,6 @@ module.exports = {
     helmet: {}
 };
 
-module.exports.helmet = process.env.GULPING ? {} : {
+module.exports.helmet = !process.env.GULPING ? {} : {
     contentSecurityPolicy: false
 };
