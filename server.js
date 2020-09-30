@@ -8,6 +8,7 @@
 console.log("Going to use express (maybe MetorJS) to serve up a simple app that renders using Scetch.");
 console.log("Deploy to Heroku: https://devcenter.heroku.com/articles/getting-started-with-nodejs#prepare-the-app");
 
+const config = require("./config");
 const serverInfo = {
     host: process.env.HOST || "localhost",
     port: process.env.PORT || 80
@@ -23,14 +24,8 @@ const cors = require('cors');
 
 // Make the app
 let app = express();
-app.use(morgan('common', {
-    stream: process.env.IS_VSCODE ? {
-        write: console.log
-    } : process.stdout
-}));
-app.use(helmet({
-    contentSecurityPolicy: !process.env.GULPING
-}));
+app.use(morgan('common', config.morgan));
+app.use(helmet(config.helmet));
 app.use(cors());
 
 let public = path.join(__dirname, "app", "public");
