@@ -1,1 +1,1 @@
-web: set HOST=0.0.0.0 && node index.js
+web: set HOST=0.0.0.0 && npm start
