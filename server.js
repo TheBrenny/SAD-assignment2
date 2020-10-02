@@ -5,8 +5,12 @@
  * 21 Sep 20
  */
 
-console.log("Going to use express (maybe MetorJS) to serve up a simple app that renders using Scetch.");
-console.log("Deploy to Heroku: https://devcenter.heroku.com/articles/getting-started-with-nodejs#prepare-the-app");
+// console.log("Going to use express (maybe MetorJS) to serve up a simple app that renders using Scetch.");
+// console.log("Deploy to Heroku: https://devcenter.heroku.com/articles/getting-started-with-nodejs#prepare-the-app");
+// DECISION MADE: Using Heroku to deploy an Electron/Node/Scetch stack! (Heroku uses Postgres instead of SQLite,
+//                  so we'll need to create a driver changer for use on Heroku.)
+
+require("./util_and_polyfill");
 
 const config = require("./config");
 const serverInfo = {

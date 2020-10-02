@@ -20,7 +20,7 @@ CREATE TABLE ClassGroup (
 CREATE TABLE Exam (
   examID INTEGER NOT NULL,
   parentID INTEGER,
-  examName VARCHAR(50) NOT NULL,
+  examName VARCHAR(50) NOT NULL UNIQUE,
   PRIMARY KEY (examID),
   FOREIGN KEY (parentID) REFERENCES Exam (examID)
 );

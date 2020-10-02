@@ -4,7 +4,8 @@
   "description": "The code for the Systems Analysis and Design Assignment 2",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"No tests specified -- yet to be made...\""
+    "test": "jest",
+    "postinstall": "node ./bin/sqlInstall.js"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,6 @@
     "morgan": "^1.10.0",
     "pg": "^8.3.3",
     "scetch": "^1.2.1",
-    "sequelize": "^6.3.5",
     "sqlite": "^4.0.14",
     "sqlite3": "^5.0.0"
   },
@@ -38,7 +38,9 @@
     "gulp": "^4.0.2",
     "gulp-nodemon": "^2.5.0",
     "gulp-sass": "^4.1.0",
-    "nodemon": "^2.0.4"
+    "jest": "^26.4.2",
+    "nodemon": "^2.0.4",
+    "supertest": "^5.0.0"
   },
   "nodemonConfig": {
     "ignore": [
@@ -48,6 +50,12 @@
     "watch": [
       "server.js",
       "app/"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
     ]
   }
 }
