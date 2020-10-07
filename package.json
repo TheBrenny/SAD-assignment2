@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
+    "dev": "gulp default",
     "postinstall": "node ./bin/sqlInstall.js"
   },
   "repository": {
@@ -17,7 +18,7 @@
     "Josephine Curtis",
     "Jack Millar"
   ],
-  "license": "Copyright (c) 2020 Jarod Brennfleck, Kat Burnett, Josephine Curtis, and Jack Millar",
+  "license": "See license.md",
   "bugs": {
     "url": "https://github.com/TheBrenny/SAD-assignment2/issues"
   },

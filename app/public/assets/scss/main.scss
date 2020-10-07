@@ -1,4 +1,10 @@
-pre {
-    background-color: red;
-    color: #DDDDDD;
+$blue: #1D8Ac4; // Background
+$green: #BAE617; // Green means go!
+$red: #CC3E1D; // Red is bad!
+$black: #020202; // Text color
+$white: #EFEFEF; // White could be accent?
+
+html {
+    background: $blue;
+    color: $black;
 }

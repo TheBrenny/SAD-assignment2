@@ -1,0 +1,1 @@
+Copyright (c) 2020 Jarod Brennfleck, Kat Burnett, Josephine Curtis, and Jack Millar
