@@ -29,9 +29,9 @@
     "express": "^4.17.1",
     "helmet": "^4.1.1",
     "morgan": "^1.10.0",
-    "pg": "^8.3.3",
-    "scetch": "^1.2.1",
-    "sqlite": "^4.0.14",
+    "pg": "^8.4.1",
+    "scetch": "^1.2.3",
+    "sqlite": "^4.0.15",
     "sqlite3": "^5.0.0"
   },
   "devDependencies": {
@@ -39,7 +39,6 @@
     "gulp": "^4.0.2",
     "gulp-nodemon": "^2.5.0",
     "gulp-sass": "^4.1.0",
-    "jest": "^26.4.2",
     "nodemon": "^2.0.4",
     "supertest": "^5.0.0"
   },

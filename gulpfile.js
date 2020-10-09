@@ -18,6 +18,7 @@ gulp.task("browserSync", function (cb) {
     return browserSync.init({
         proxy: `http://${host}/`,
         files: ["app/public/assets/**/*.*", "app/public/views/**/*.*"],
+        excludeFileTypes: [".scss"],
         open: false,
         port: 81
     }, cb);
