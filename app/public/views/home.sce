@@ -6,6 +6,7 @@
   * Record activity completed
   * Search for students
       * By Name
+        By Student number
         By Age
         By Activities Completed
         By Activities Not Completed

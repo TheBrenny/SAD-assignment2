@@ -1,10 +1,18 @@
 const express = require('express');
 const router = express.Router();
 
+const pages = [
+    "Home",
+    "Students",
+    "Attendance",
+    "Activities",
+    "Planner"
+];
+
 router.get('/*', (req, res) => {
     res.render('home', {
-        url: req.url,
-        time: new Date().toLocaleTimeString()
+        nav: pages,
+            page: req.url.substring(1)
     });
 });
 

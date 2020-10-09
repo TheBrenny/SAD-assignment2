@@ -1,3 +1,24 @@
 html {
   background: #1D8Ac4;
-  color: #020202; }
+  color: #222222; }
+
+div.flex {
+  display: flex; }
+  div.flex.navbar {
+    flex-grow: 1;
+    margin-bottom: 0.3rem; }
+    div.flex.navbar > .navbarItem {
+      flex-grow: 1;
+      text-align: center;
+      border-radius: 0 0 1em 1em;
+      background: rgba(214, 159, 64, 0.5);
+      line-height: 3em;
+      height: 3em;
+      font-size: 1rem;
+      cursor: pointer; }
+      div.flex.navbar > .navbarItem.active {
+        background: #D69F40; }
+
+app {
+  display: flex;
+  flex-flow: column; }

@@ -1,10 +1,45 @@
+// https://coolors.co/1d8ac4-d69f40-bae617-cc3e1d-222222
 $blue: #1D8Ac4; // Background
 $green: #BAE617; // Green means go!
 $red: #CC3E1D; // Red is bad!
-$black: #020202; // Text color
+$orange: #D69F40;
+$black: #222222; // Text color
 $white: #EFEFEF; // White could be accent?
+// $alphawhite: change-color(#EFEFEF, $alpha: 0.2); // White could be accent?
+
+@import "mixins";
 
 html {
     background: $blue;
     color: $black;
+}
+div.flex {
+    display: flex;
+
+    &.navbar {
+        flex-grow: 1;
+        margin-bottom: 0.3rem;
+
+        &>.navbarItem {
+            flex-grow: 1;
+            text-align: center;
+            border-radius: 0 0 1em 1em;
+            background: change-color($orange, $alpha: 0.5);
+            line-height: 3em;
+            height: 3em;
+            font-size: 1rem;
+            cursor: pointer;
+
+            &.active {
+                background: $orange;
+            }
+        }
+
+        @include tablet {}
+    }
+}
+
+app {
+    display: flex;
+    flex-flow: column;
 }
