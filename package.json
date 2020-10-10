@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "dev": "gulp default",
-    "postinstall": "node ./bin/sqlInstall.js"
+    "postinstall": "node ./bin/sqlInstall.js && node ./node_modules/gulp/bin/gulp.js build"
   },
   "repository": {
     "type": "git",

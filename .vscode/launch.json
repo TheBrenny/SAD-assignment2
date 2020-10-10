@@ -6,9 +6,9 @@
     "configurations": [
         {
             "args": [
-                "default"
+                "dev"
             ],
-            "name": "gulp default",
+            "name": "dev",
             "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
             "request": "launch",
             "skipFiles": [

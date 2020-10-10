@@ -17,11 +17,12 @@ div.flex {
     display: flex;
 
     &.navbar {
-        flex-grow: 1;
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.5rem;
+        flex-flow: row;
+        justify-content: space-evenly;
 
         &>.navbarItem {
-            flex-grow: 1;
+            flex-grow: 0.175;
             text-align: center;
             border-radius: 0 0 1em 1em;
             background: change-color($orange, $alpha: 0.5);
@@ -33,9 +34,20 @@ div.flex {
             &.active {
                 background: $orange;
             }
-        }
+            &:not(.active):hover {
+                background: change-color($orange, $alpha: 0.7);
+            }
+            }
 
-        @include tablet {}
+            @include tablet {
+                &.open {
+                    flex-flow: column;
+                }
+
+                &.closed>.navbarItem {
+                    display: none;
+                }
+            }
     }
 }
 

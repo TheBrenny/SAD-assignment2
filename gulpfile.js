@@ -1,3 +1,10 @@
+/*
+ * The purpose of this file is to register the gulp build/dev processes.
+ * 
+ * Author: Jarod Brennfleck
+ * 23 Sep 20
+ */
+
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const browserSync = require('browser-sync').create();
@@ -51,4 +58,5 @@ gulp.task("watch", gulp.series("sass", function (cb) {
     cb();
 }));
 
-gulp.task("default", gulp.series("nodemon", "browserSync", "watch"));
+gulp.task("dev", gulp.series("nodemon", "browserSync", "watch"));
+gulp.task("build", gulp.series("sass"));
