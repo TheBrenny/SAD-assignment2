@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "dev": "gulp default",
+    "dev": "gulp dev",
     "postinstall": "node ./bin/sqlInstall.js && node ./node_modules/gulp/bin/gulp.js build"
   },
   "repository": {

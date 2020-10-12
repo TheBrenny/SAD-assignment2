@@ -5,6 +5,8 @@
  * 01 Oct 20
  */
 
+BEGIN TRANSACTION;
+
 CREATE TABLE Attendance (
   attendID INTEGER NOT NULL,
   attendName VARCHAR(20) NOT NULL,
@@ -51,3 +53,5 @@ CREATE TABLE ExamCompleted (
   FOREIGN KEY (student) REFERENCES Student (studentID),
   FOREIGN KEY (exam) REFERENCES Exam (examID)
 );
+
+COMMIT;

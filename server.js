@@ -10,7 +10,8 @@
 // DECISION MADE: Using Heroku to deploy an Electron/Node/Scetch stack! (Heroku uses Postgres instead of SQLite,
 //                  so we'll need to create a driver changer for use on Heroku.)
 
-require("./util_and_polyfill");
+require("./util_and_polyfill"); // only needs to be called once for the app!
+require("./db/db"); // initial load of the DB.
 
 const config = require("./config");
 const serverInfo = {

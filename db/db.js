@@ -8,10 +8,13 @@
  * 01 Oct 20
  */
 
+// Returns a Promise!
+// This should be used as require('./db').then(blah).blah...
 module.exports = (function () {
     if (!global.hasOwnProperty('db')) {
         const path = require('path');
-        const sqlite3 = require("sqlite3").verbose();
+        let sqlite3 = require("sqlite3");
+        if (!(process.env.NODE_ENV || "production").startsWith("prod")) sqlite3 = sqlite3.verbose();
         const sqlite = require("sqlite").open;
         global.db = sqlite({
             filename: path.join(__dirname, "sql", "db.sqlite"),
@@ -20,3 +23,4 @@ module.exports = (function () {
     }
     return global.db;
 })();
+// Documentation: https://npmjs.com/package/sqlite
