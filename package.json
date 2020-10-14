@@ -4,7 +4,8 @@
   "description": "The code for the Systems Analysis and Design Assignment 2",
   "main": "server.js",
   "scripts": {
-    "test": "ava --verbose",
+    "test": "ava --verbose --tap | faucet",
+    "testDebug": "ava --verbose",
     "dev": "gulp dev",
     "postinstall": "node ./bin/sqlInstall.js && node ./node_modules/gulp/bin/gulp.js build"
   },
@@ -37,6 +38,7 @@
   "devDependencies": {
     "ava": "^3.13.0",
     "browser-sync": "^2.26.12",
+    "faucet": "0.0.1",
     "gulp": "^4.0.2",
     "gulp-nodemon": "^2.5.0",
     "gulp-sass": "^4.1.0",
@@ -51,12 +53,6 @@
     "watch": [
       "server.js",
       "app/"
-    ]
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
     ]
   }
 }

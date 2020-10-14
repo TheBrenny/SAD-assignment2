@@ -8,7 +8,9 @@
  * 01 Oct 20
  */
 
-const path = require("path");
+const path = require('path');
+let sqlite3 = require("sqlite3");
+const sqlite = require("sqlite").open; // promise one
 const fs = require('fs');
 
 const dbFolder = path.join(__dirname);
@@ -38,7 +40,7 @@ module.exports.templateFromFile = function (filename, values) {
     Array.from(values).forEach(v => { // v is an object
         let dupe = dupeTemplate;
         for (let e of Object.entries(v)) {
-            dupe = dupe.replaceAll(RegExp.escape("${" + e[0] + "}"), e[1]);
+            dupe = dupe.replaceAll("${" + e[0] + "}", e[1]);
         }
         dupeArr.push(dupe);
     });
@@ -51,28 +53,45 @@ module.exports.templateFromFile = function (filename, values) {
 };
 
 function stripUselessChars(data) {
-    return data.replaceAll(/(\/\*.+?\*\/|^--.*?$)/gms, "").replaceAll("[\n\r]", " ").replaceAll(" +", " ").trim();
+    return data.replaceAll(/(\/\*.+?\*\/|^--.*?$)/gms, "").replaceAll(/\n\r/, " ").replaceAll(/\s+/, " ").trim();
 }
 // Returns a Promise!
 // This should be used as require('./db').then(blah).blah...
 module.exports = (function () {
     if (!global.hasOwnProperty('db')) {
-        const path = require('path');
-        let sqlite3 = require("sqlite3");
         let dbTarget = "db.sqlite";
         if (!((process.env.NODE_ENV || "production") + "").startsWith("prod")) {
             sqlite3 = sqlite3.verbose();
             dbTarget = ["db.", process.env.NODE_ENV, ".sqlite"].join("");
         }
-        const sqlite = require("sqlite").open;
         global.db = sqlite({
             filename: path.join(__dirname, dbTarget),
             driver: sqlite3.Database,
         });
-        global.db.sqlFolder = module.exports.sqlFolder;
-        global.db.sqlFromFile = module.exports.sqlFromFile;
-        global.db.templateFromFile = module.exports.templateFromFile;
+
+        // TODO: add the exports
+        Object.assign(global.db, module.exports);
     }
     return global.db;
 })();
+
+let dbOps = ["close", "configure", "run", "get", "all", "each", "exec", "prepare"];
+dbOps.forEach(op => {
+    module.exports[op] = async function () {
+        let theDB = (await global.db);
+        return theDB[op].apply(theDB, arguments);
+    };
+});
+
+
+// module.exports.exec = async function () {
+//     let theDB = (await global.db);
+//     return theDB.exec.apply(theDB, arguments);
+// };
+
+// module.exports.get = async function () {
+//     let theDB = (await global.db);
+//     return theDB.get.apply(theDB, arguments);
+// };
+
 // Documentation: https://npmjs.com/package/sqlite

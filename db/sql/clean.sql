@@ -13,12 +13,8 @@
 -- DROP TABLE IF EXISTS AttendanceRecord;
 -- DROP TABLE IF EXISTS ExamCompleted;
 
-BEGIN TRANSACTION;
-
 PRAGMA writable_schema = 1;
 DELETE FROM sqlite_master where type in ('table', 'index', 'trigger');
 PRAGMA writable_schema = 0;
 VACUUM;
 PRAGMA INTEGRITY_CHECK;
-
-COMMIT;

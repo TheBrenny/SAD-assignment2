@@ -4,20 +4,62 @@
  * Author: Jarod Brennfleck
  * 02 Oct 20
  */
-require("../util_and_polyfill");
 const test = require("ava");
+// test.todo('testing db comes later when we have more things to test!');
+require("../util_and_polyfill");
 const db = require("../db/db");
+const schema = require("../db/schema");
 
-test.todo('testing db comes later when we have more things to test!');
+let failFast = false;
 
-// const dbPromise = require("./db/db");
-// const schema = require("./db/schema");
+test.before("clean and install", async t => {
+    t.regex((await db).config.filename, /.*?test\.sqlite$/, "not using the test db!");
+    db.exec(db.sqlFromFile("clean"));
+    db.exec(db.sqlFromFile("install"));
+});
 
-// let students = [
-//     new schema.Student(0, "Jarod", "Brennfleck", "1999-02-01", 0),
-//     new schema.Student(1, "Josie", "Curtis", "2000-12-23", 0),
-// ];
+test.serial("sql templates", t => {
+    let students = [
+        new schema.Student(0, "Jarod", "Brennfleck", "1999-02-01", 0),
+        new schema.Student(1, "Josie", "Curtis", "2000-12-23", 0),
+    ];
 
-// let newStudents = dbPromise.templateFromFile("newStudent", students);
+    let newStudents = db.templateFromFile("newStudent", students);
+    let target = 'INSERT INTO Student (studentID, firstName, lastName, dob, groupID) VALUES (0, "Jarod", "Brennfleck", DATE("1999-02-01"), 0) , (1, "Josie", "Curtis", DATE("2000-12-23"), 0) ;';
 
-// console.log(newStudents);
+    t.is(newStudents, target);
+
+    if (!t.passed) failFast = "sql template couldn't be trusted";
+});
+
+test("insert students", async t => {
+    if (failFast !== false) return t.fail(failFast);
+
+    let students = [
+        new schema.Student(0, "Jarod", "Brennfleck", "1999-02-01", 0),
+        new schema.Student(1, "Josie", "Curtis", "2000-12-23", 0),
+        new schema.Student(2, "Josie", "Curtis", "2001-10-13", 0),
+        new schema.Student(3, "Josie", "Curtis", "2002-11-15", 0),
+    ];
+
+    let newStudents = db.templateFromFile("newStudent", students);
+
+    await t.notThrowsAsync(db.exec(newStudents));
+});
+
+test("no duplicate PKs", async t => {
+    if (failFast !== false) return t.fail(failFast);
+
+    let students = [
+        new schema.Student(0, "Jarod", "Brennfleck", "1999-02-01", 0),
+        new schema.Student(0, "Josie", "Curtis", "2002-11-15", 0),
+    ];
+
+    let newStudents = db.templateFromFile("newStudent", students);
+
+    await t.throwsAsync(db.exec(newStudents));
+});
+
+test.after.always("clean db", async (_) => {
+    await db.close();
+});

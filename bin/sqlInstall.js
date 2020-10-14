@@ -8,3 +8,8 @@
 // Delete DB File
 
 // Use sqlite module to run the "install.sql" file into memory and save to a new DB.
+require("../util_and_polyfill");
+const db = require("../db/db");
+
+db.exec(db.sqlFromFile("clean"));
+db.exec(db.sqlFromFile("install"));
