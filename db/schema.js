@@ -33,10 +33,15 @@ class Schema {
         let table = this.constructor.name;
         let objs = Object.entries(this).filter(e => !Object.isNull(e[1]));
         let cols = objs.map(e => e[0]).join(",");
-        let vals = objs.map(e => e[1]).join(",");
+        let vals = objs.map(e => e[1]).map(e => typeof e === "number" ? e : `"${e}"`).join(",");
         let ret = `INSERT INTO ${table} (${cols}) VALUES (${vals});`;
         // TODO: Wrap strings in quotes, and convert Dates to SQL Date Objects
         return ret;
+    }
+    insertValues() {
+            let objs = Object.entries(this).filter(e => !Object.isNull(e[1]));
+            let vals = objs.map(e => e[1]).join(",");
+            return `(${vals})`;
     }
 }
 
@@ -122,4 +127,24 @@ module.exports = {
         BadSchemaErrorNullValue,
         BadSchemaErrorBadTypes
     }
+};
+module.exports.insertMany = function (...vals) {
+    if (vals.length === 0) return "";
+    if (Array.isArray(vals[0])) vals = vals[0];
+    if (vals.some(v => !v.inherits(Schema.prototype))) return "";
+    if (vals.map(v => v.constructor.name).some(v => v !== vals[0].constructor.name)) return "";
+    let table = vals[0].constructor.name;
+    let objs = Object.entries(vals[0]).filter(e => !Object.isNull(e[1]));
+    let cols = objs.map(e => e[0]).join(",");
+    let theVals = vals.map(v => v.insertValues());
+    let ret = `INSERT INTO ${table} (${cols}) VALUES ${theVals.join(",")};`;
+    // TODO: Wrap strings in quotes, and convert Dates to SQL Date Objects
+    return ret;
+};
+module.exports.formatDateToSQL = function (date) {
+    if (!date.inherits(Date.prototype)) return date;
+    let ret = [date.getFullYear(), (new Date().getMonth())];
+    return;
+
+    // TODO: SET THE DATE TO YYYY-MM-DD format!
 };

@@ -1,7 +1,7 @@
 WITH cte_Exam AS (
     SELECT examid, examname, parentid
     FROM Exam
-    WHERE examid = 5
+    WHERE examid = ${examid}
     UNION ALL
     SELECT e.examid, e.examname, e.parentid
     FROM Exam AS e

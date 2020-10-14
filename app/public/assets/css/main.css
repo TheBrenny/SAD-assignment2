@@ -1,3 +1,6 @@
+/*
+ * This file provides us with Mixins for the other SCSS files.
+ */
 html {
   background: #1D8Ac4;
   color: #222222; }
