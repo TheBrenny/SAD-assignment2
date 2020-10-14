@@ -16,7 +16,7 @@
 class Schema {
     constructor(...args) {
         args = Array.from(args);
-        // if (Object.isNull(args.filter(a => a[2]).map(a => a[0]))) throw new BadSchemaErrorNullValue(...args);
+        // if (Object.isOneNull(args.filter(a => a[2]).map(a => a[0]))) throw new BadSchemaErrorNullValue(...args);
         if (args.length > 0 && !args.every(confirmArgTypes)) throw new BadSchemaErrorBadTypes(...args);
 
         function confirmArgTypes(v) {
@@ -31,7 +31,7 @@ class Schema {
 
     insertInto() {
         let table = this.constructor.name;
-        let objs = Object.entries(this).filter(e => !Object.isNull(e[1]));
+        let objs = Object.entries(this).filter(e => !Object.isOneNull(e[1]));
         let cols = objs.map(e => e[0]).join(",");
         let vals = objs.map(e => e[1]).map(e => typeof e === "number" ? e : `"${e}"`).join(",");
         let ret = `INSERT INTO ${table} (${cols}) VALUES (${vals});`;
@@ -39,7 +39,7 @@ class Schema {
         return ret;
     }
     insertValues() {
-            let objs = Object.entries(this).filter(e => !Object.isNull(e[1]));
+            let objs = Object.entries(this).filter(e => !Object.isOneNull(e[1]));
             let vals = objs.map(e => e[1]).join(",");
             return `(${vals})`;
     }
@@ -134,7 +134,7 @@ module.exports.insertMany = function (...vals) {
     if (vals.some(v => !v.inherits(Schema.prototype))) return "";
     if (vals.map(v => v.constructor.name).some(v => v !== vals[0].constructor.name)) return "";
     let table = vals[0].constructor.name;
-    let objs = Object.entries(vals[0]).filter(e => !Object.isNull(e[1]));
+    let objs = Object.entries(vals[0]).filter(e => !Object.isOneNull(e[1]));
     let cols = objs.map(e => e[0]).join(",");
     let theVals = vals.map(v => v.insertValues());
     let ret = `INSERT INTO ${table} (${cols}) VALUES ${theVals.join(",")};`;

@@ -60,9 +60,9 @@ module.exports = (function () {
         const path = require('path');
         let sqlite3 = require("sqlite3");
         let dbTarget = "db.sqlite";
-        if (!(process.env.NODE_ENV || "production").startsWith("prod")) {
+        if (!((process.env.NODE_ENV || "production") + "").startsWith("prod")) {
             sqlite3 = sqlite3.verbose();
-            dbTarget = "db.dev.sqlite";
+            dbTarget = ["db.", process.env.NODE_ENV, ".sqlite"].join("");
         }
         const sqlite = require("sqlite").open;
         global.db = sqlite({

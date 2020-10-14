@@ -5,16 +5,19 @@
  * 02 Oct 20
  */
 require("../util_and_polyfill");
+const test = require("ava");
 const db = require("../db/db");
 
-expect.extend({
-    toHaveCombination(val, arr) {
-        const pass = Array.isArray(val) && Array.isArray(arr) && Array.from(val).hasCombination(Array.from(arr));
-        return {
-            message: () => `expected ${arr} ${pass ? "not " : ""}to be a combination of ${val}`,
-            pass: pass
-        };
-    }
-});
+test.todo('testing db comes later when we have more things to test!');
 
-// TODO: Create some tests when you get further in!
+// const dbPromise = require("./db/db");
+// const schema = require("./db/schema");
+
+// let students = [
+//     new schema.Student(0, "Jarod", "Brennfleck", "1999-02-01", 0),
+//     new schema.Student(1, "Josie", "Curtis", "2000-12-23", 0),
+// ];
+
+// let newStudents = dbPromise.templateFromFile("newStudent", students);
+
+// console.log(newStudents);
