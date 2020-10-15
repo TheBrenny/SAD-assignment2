@@ -3,7 +3,7 @@ const db = require('../../db/db');
 
 router.get("/", async (req, res, next) => {
     try {
-        let groups = await db.all("SELECT * FROM Attendance;");
+        let groups = await db.all("SELECT * FROM ClassGroup;");
         res.json(groups);
     } catch (e) {
         next(e);

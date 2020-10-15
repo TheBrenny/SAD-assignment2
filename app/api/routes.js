@@ -16,12 +16,16 @@ router.use("/planner", require("./planner"));
 router.use("/students", require("./students"));
 
 if (!!process.env.DEMO_MODE) {
-    router.get('/demo', async (req, res) => {
-        await db.exec(db.sqlFromFile("demoEmpty"));
-        await db.exec(db.sqlFromFile("demoFill"));
-        res.json({
-            success: true
-        });
+    router.get('/demo', async (_, res, next) => {
+        try {
+            await db.exec(db.sqlFromFile("demoEmpty"));
+            await db.exec(db.sqlFromFile("demoFill"));
+            res.json({
+                success: true
+            });
+        } catch (e) {
+            next(e);
+        }
     });
 }
 

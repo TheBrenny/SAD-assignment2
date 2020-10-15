@@ -58,7 +58,7 @@ module.exports.templateFromFile = function (filename, values) {
 module.exports.compressSQL = compressSQL;
 
 function compressSQL(data) {
-    return data.replaceAll(/(\/\*.+?\*\/|^--.*?$)/gms, "").replaceAll(/\n\r/, " ").replaceAll(/\s+/, " ").trim();
+    return data.replaceAll(/(\/\*.+?\*\/|^\s*--.*?$)/gms, "").replaceAll(/\n\r/, " ").replaceAll(/\s+/, " ").trim();
 }
 
 let dbOps = ["close", "configure", "run", "get", "all", "each", "exec", "prepare"];

@@ -11,18 +11,16 @@ CREATE TABLE Attendance (
   PRIMARY KEY (attendID)
 );
 
-INSERT INTO Attendance (attendID, attendName) VALUES
-  (0, "Present"),
-  (1, "Absent"),
-  (2, "Sick");
+INSERT INTO Attendance (attendName) VALUES
+  ("Present"),
+  ("Absent"),
+  ("Sick");
 
 CREATE TABLE ClassGroup (
   groupID INTEGER NOT NULL,
   groupName VARCHAR(20) NOT NULL,
   PRIMARY KEY (groupID)
 );
-INSERT INTO ClassGroup (groupID, groupName) VALUES
-  (-1, "Groupless");
 
 CREATE TABLE Activity (
   activityID INTEGER NOT NULL,

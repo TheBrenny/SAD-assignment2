@@ -9,8 +9,9 @@ const express = require('express');
 const router = express.Router();
 const nodeFetch = require("node-fetch");
 const fetchTarget = require("../../config").serverInfo;
-const fetch = (path) => {
-    return nodeFetch("http://" + fetchTarget.host + ":" + fetchTarget.port + "/api" + path);
+const fetchAPI = (req, path) => {
+    let target = req.protocol + "://" + req.host + "/api" + path;
+    return nodeFetch(target);
 };
 
 function getPageData(req, _) {
@@ -31,7 +32,7 @@ router.get(['/', '/home'], (req, res) => {
 router.get('/students', async (req, res) => {
     res.render('students', {
         ...getPageData(req, res),
-        students: await (fetch("/students").then(r => r.json()))
+        students: await (fetchAPI(req, "/students").then(r => r.json()))
     });
 });
 router.get('/students/:id', async (req, res) => {
@@ -57,8 +58,8 @@ router.get('/planner', (req, res) => {
 
 if (!!process.env.DEMO_MODE) {
     router.get('/demo', async (req, res) => {
-        await fetch('/demo');
-        // res.redirect('/');
+        await fetchAPI(req, '/demo');
+        res.redirect(303, '/');
     });
 }
 
