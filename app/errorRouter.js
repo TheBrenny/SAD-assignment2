@@ -22,9 +22,7 @@ router.use((err, req, res, __) => {
         res.render("error", e);
     } else if (req.accepts("application/json")) {
         res.json(e);
-    }
-
-    res.end();
+    } else res.end();
 });
 
 module.exports = router;

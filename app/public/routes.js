@@ -14,7 +14,7 @@ function getPageData(req, res) {
     };
 }
 
-router.get('/home', (req, res) => {
+router.get(['/', '/home'], (req, res) => {
     res.render('home', {
         ...getPageData(req, res),
     });
