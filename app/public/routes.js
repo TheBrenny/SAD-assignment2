@@ -35,7 +35,7 @@ router.get('/students', async (req, res) => {
     });
 });
 router.get('/students/:id', async (req, res) => {
-    res.render('student.get', {
+    res.render('student_get', {
         ...getPageData(req, res),
     });
 });
