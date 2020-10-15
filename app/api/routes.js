@@ -7,8 +7,10 @@
 
 const router = require('express').Router();
 
+router.use("/attendance", require("./attendance"));
 router.use("/students", require("./students"));
 router.use("/activities", require("./activities"));
 router.use("/planner", require("./planner"));
+router.use("/groups", require("./groups"));
 
 module.exports = router;
