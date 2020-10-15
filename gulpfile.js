@@ -4,13 +4,16 @@
  * Author: Jarod Brennfleck
  * 23 Sep 20
  */
-
+// require("./util_and_polyfill");
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const browserSync = require('browser-sync').create();
 const nodemon = require('gulp-nodemon');
-
+const fs = require('fs');
+const path = require('path');
+const log = require("fancy-log");
 const host = "sadass";
+const config = require('./config');
 
 gulp.task("sass", function () {
     return gulp.src("app/public/assets/scss/**/*.scss")
@@ -25,7 +28,7 @@ gulp.task("browserSync", function (cb) {
     return browserSync.init({
         proxy: `http://${host}/`,
         files: ["app/public/assets/**/*.*", "app/public/views/**/*.*"],
-        excludeFileTypes: [".scss"],
+        ignore: ["**/*.scss"],
         open: false,
         port: 81
     }, cb);
@@ -36,6 +39,7 @@ gulp.task("nodemon", function (cb) {
 
     return nodemon({
         script: 'server.js',
+        delay: 10,
         env: {
             "NODE_ENV": 'dev',
             "GULPING": true,
@@ -54,9 +58,25 @@ gulp.task("nodemon", function (cb) {
     });
 });
 gulp.task("watch", gulp.series("sass", function (cb) {
-    gulp.watch("app/public/assets/scss/**/*.scss", gulp.series("sass"));
+    gulp.watch("app/public/assets/scss/**/*.scss", gulp.series("sass")).on("error", log.error);
     cb();
 }));
 
-gulp.task("dev", gulp.series("nodemon", "browserSync", "watch"));
+gulp.task("prepareDev", async function (cb) {
+    process.env.NODE_ENV = "dev";
+    if (!fs.existsSync(config.dbTarget)) {
+        await gulp.task("cleanDev")();
+    }
+    if (cb) cb();
+});
+
+gulp.task("cleanDev", async function cleanDev(cb) {
+    const db = require('./db/db');
+    await db.exec(db.sqlFromFile("clean"));
+    await db.exec(db.sqlFromFile("install"));
+    await db.close();
+    if (cb) cb();
+});
+
 gulp.task("build", gulp.series("sass"));
+gulp.task("dev", gulp.series("prepareDev", "nodemon", "browserSync", "watch"));

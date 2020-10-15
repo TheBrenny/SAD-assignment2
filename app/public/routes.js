@@ -8,19 +8,36 @@
 const express = require('express');
 const router = express.Router();
 
-const pages = [
-    "Home",
-    "Students",
-    "Attendance",
-    "Activities",
-    "Planner"
-];
+function getPageData(req, res) {
+    return {
+        page: req.url.substring(1),
+    };
+}
 
-router.get('/*', (req, res) => {
+router.get('/home', (req, res) => {
     res.render('home', {
-        nav: pages,
-        page: req.url.substring(1)
+        ...getPageData(req, res),
     });
 });
-
+router.get('/students', (req, res) => {
+    res.render('students', {
+        ...getPageData(req, res),
+        students: []
+    });
+});
+router.get('/attendance', (req, res) => {
+    res.render('home', {
+        ...getPageData(req, res),
+    });
+});
+router.get('/activities', (req, res) => {
+    res.render('home', {
+        ...getPageData(req, res),
+    });
+});
+router.get('/planner', (req, res) => {
+    res.render('planner', {
+        ...getPageData(req, res),
+    });
+});
 module.exports = router;

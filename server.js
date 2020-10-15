@@ -32,6 +32,7 @@ let app = express();
 app.use(morgan('common', config.morgan));
 app.use(helmet(config.helmet));
 app.use(cors());
+app.use(express.json());
 
 let public = path.join(__dirname, "app", "public");
 
@@ -40,8 +41,8 @@ app.engine('sce', scetch.engine);
 app.set('view engine', 'sce');
 
 app.use("/assets", express.static(path.join(public, "assets")));
-app.use(require('./app/public/routes'));
 app.use('/api', require('./app/api/routes'));
+app.use(require('./app/public/routes'));
 app.use(require('./app/errorRouter'));
 
 app.listen(serverInfo.port, serverInfo.host, () => {

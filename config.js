@@ -7,6 +7,8 @@
  * 30 Sep 20
  */
 
+const path = require('path');
+
 module.exports = {
     morgan: {
         stream: process.env.IS_VSCODE ? {
@@ -19,3 +21,17 @@ module.exports = {
 module.exports.helmet = !process.env.GULPING ? {} : {
     contentSecurityPolicy: false
 };
+
+const dbTarget = () => {
+    let nodeEnv = process.env.NODE_ENV || "production";
+    let target = [
+        "db",
+        nodeEnv.startsWith("prod") ? "" : "." + nodeEnv,
+        ".sqlite"
+    ];
+    return path.join(__dirname, "db", target.join(""));
+};
+
+Object.defineProperty(module.exports, "dbTarget", {
+    get: () => dbTarget(process.env)
+});

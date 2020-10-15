@@ -1,9 +1,27 @@
 <div class="flex navbar">
-    [[e= navItem in nav ]]
     <div class="navbarItem
-    [[?= page.toLowerCase() == navItem.toLowerCase() || (page.toLowerCase() == '' && navItem.toLowerCase() == 'home') ]]
+    [[?= page.toLowerCase() == 'home' ]]
     active
     [[?==]]
-    " target="[[ navItem ]]">[[ navItem ]]</div>
+    " target="Home">Home</div>
+    <div class="navbarItem
+    [[?= page.toLowerCase() == 'students' ]]
+    active
     [[?==]]
+    " target="Students">Students</div>
+    <div class="navbarItem
+    [[?= page.toLowerCase() == 'attendance' ]]
+    active
+    [[?==]]
+    " target="Attendance">Attendance</div>
+    <div class="navbarItem
+    [[?= page.toLowerCase() == 'activities' ]]
+    active
+    [[?==]]
+    " target="Activities">Activities</div>
+    <div class="navbarItem
+    [[?= page.toLowerCase() == 'planner' ]]
+    active
+    [[?==]]
+    " target="Planner">Planner</div>
 </div>

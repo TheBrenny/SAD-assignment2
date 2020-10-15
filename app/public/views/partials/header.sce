@@ -11,5 +11,5 @@
 </head>
 
 <body>
+    [[i= partials/navbar ]]
     <app>
-        [[i= partials/navbar ]]

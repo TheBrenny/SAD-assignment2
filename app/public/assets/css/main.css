@@ -5,31 +5,68 @@ html {
   background: #1D8Ac4;
   color: #222222; }
 
+blockquote.error {
+  background: #AAAAAA;
+  padding: 1rem 1.5rem;
+  border-left: 0.5rem solid;
+  border-radius: 0.5rem;
+  border-image: linear-gradient(to bottom, #D69F40, #CC3E1D) 1 100%;
+  color: #444444; }
+
 div.flex {
   display: flex; }
-  div.flex.navbar {
-    margin-bottom: 0.5rem;
-    flex-flow: row;
-    justify-content: space-evenly; }
-    div.flex.navbar > .navbarItem {
-      flex-grow: 0.175;
-      text-align: center;
-      border-radius: 0 0 1em 1em;
-      background: rgba(214, 159, 64, 0.5);
-      line-height: 3em;
-      height: 3em;
-      font-size: 1rem;
-      cursor: pointer; }
-      div.flex.navbar > .navbarItem.active {
-        background: #D69F40; }
-      div.flex.navbar > .navbarItem:not(.active):hover {
-        background: rgba(214, 159, 64, 0.7); }
-    @media (min-width: 768px) and (max-width: 1023px) {
-      div.flex.navbar.open {
-        flex-flow: column; }
-      div.flex.navbar.closed > .navbarItem {
-        display: none; } }
+
+div.navbar {
+  margin-bottom: 0.5rem;
+  flex-flow: row;
+  justify-content: space-evenly; }
+  div.navbar > .navbarItem {
+    flex-grow: 0.175;
+    text-align: center;
+    border-radius: 0 0 1em 1em;
+    background: #a07222;
+    line-height: 3em;
+    height: 3em;
+    font-size: 1rem;
+    cursor: pointer; }
+    div.navbar > .navbarItem.active {
+      background: #D69F40; }
+    div.navbar > .navbarItem:not(.active):hover {
+      background: #b78227; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    div.navbar.open {
+      flex-flow: column; }
+    div.navbar.closed > .navbarItem {
+      display: none; } }
+
+div.student {
+  flex-flow: column;
+  text-align: center;
+  flex-shrink: 1; }
+
+.cardHolder {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  align-content: flex-start; }
+  .cardHolder .card {
+    width: 200px;
+    padding: 10px;
+    background: #EFEFEF;
+    border-radius: 0.7em;
+    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.26), 0 4px 14px 0 rgba(0, 0, 0, 0.22);
+    transition: transform 200ms ease;
+    cursor: pointer;
+    margin: 1em 0; }
+    .cardHolder .card:hover {
+      transform: scale(1.1); }
+    .cardHolder .card .studentImage,
+    .cardHolder .card img {
+      width: inherit;
+      height: inherit; }
 
 app {
   display: flex;
-  flex-flow: column; }
+  flex-flow: column;
+  margin: 1rem 2.5rem; }

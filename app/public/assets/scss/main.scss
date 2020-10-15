@@ -3,8 +3,14 @@ $blue: #1D8Ac4; // Background
 $green: #BAE617; // Green means go!
 $red: #CC3E1D; // Red is bad!
 $orange: #D69F40;
+
+$navActive: $orange;
+$navHover: scale-color($navActive, $lightness: -20%);
+$navInactive: scale-color($navActive, $lightness: -30%);
 $black: #222222; // Text color
+$notblack: #444444;
 $white: #EFEFEF; // White could be accent?
+$grey: #AAAAAA; // White could be accent?
 // $alphawhite: change-color(#EFEFEF, $alpha: 0.2); // White could be accent?
 
 @import "mixins";
@@ -13,45 +19,98 @@ html {
     background: $blue;
     color: $black;
 }
+
+blockquote.error {
+    background: $grey;
+    padding: 1rem 1.5rem;
+    border-left: 0.5rem solid;
+    border-radius: 0.5rem;
+    border-image: linear-gradient(to bottom, $orange, $red) 1 100%;
+    color: $notblack;
+}
+
 div.flex {
     display: flex;
+}
 
-    &.navbar {
-        margin-bottom: 0.5rem;
-        flex-flow: row;
-        justify-content: space-evenly;
+div.navbar {
+    margin-bottom: 0.5rem;
+    flex-flow: row;
+    justify-content: space-evenly;
 
-        &>.navbarItem {
-            flex-grow: 0.175;
-            text-align: center;
-            border-radius: 0 0 1em 1em;
-            background: change-color($orange, $alpha: 0.5);
-            line-height: 3em;
-            height: 3em;
-            font-size: 1rem;
-            cursor: pointer;
+    &>.navbarItem {
+        flex-grow: 0.175;
+        text-align: center;
+        border-radius: 0 0 1em 1em;
+        background: $navInactive;
+        // background: change-color($orange, $alpha: 0.5);
+        line-height: 3em;
+        height: 3em;
+        font-size: 1rem;
+        cursor: pointer;
 
-            &.active {
-                background: $orange;
-            }
-            &:not(.active):hover {
-                background: change-color($orange, $alpha: 0.7);
-            }
-            }
+        &.active {
+            background: $navActive;
+        }
 
-            @include tablet {
-                &.open {
-                    flex-flow: column;
-                }
+        &:not(.active):hover {
+            background: $navHover;
+        }
+    }
 
-                &.closed>.navbarItem {
-                    display: none;
-                }
-            }
+    @include tablet {
+        &.open {
+            flex-flow: column;
+        }
+
+        &.closed>.navbarItem {
+            display: none;
+        }
     }
 }
+
+div.student {
+    flex-flow: column;
+    text-align: center;
+    flex-shrink: 1;
+}
+
+.cardHolder {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    align-content: flex-start;
+
+    .card {
+        width: 200px;
+        padding: 10px;
+        background: $white;
+        border-radius: 0.7em;
+        box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.26), 0 4px 14px 0 rgba(0, 0, 0, 0.22);
+        transition: transform 200ms ease;
+        cursor: pointer;
+        margin: 1em 0;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        .studentImage,
+        img {
+            width: inherit;
+            height: inherit;
+        }
+
+    }
+}
+
+
+
+
 
 app {
     display: flex;
     flex-flow: column;
+    margin: 1rem 2.5rem;
 }
