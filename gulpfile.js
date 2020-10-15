@@ -71,6 +71,7 @@ gulp.task("prepareDev", async function (cb) {
 });
 
 gulp.task("cleanDev", async function cleanDev(cb) {
+    process.env.NODE_ENV = "dev";
     const db = require('./db/db');
     await db.exec(db.sqlFromFile("clean"));
     await db.exec(db.sqlFromFile("install"));

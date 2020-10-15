@@ -5,5 +5,8 @@
  * Author: Jarod Brennfleck
  * 15 Oct 20
  */
-
-$$("");
+(() => {
+    $$(".student[target]").forEach(el => el.addEventListener("click", (e) => {
+        window.location.pathname = "/students/" + e.target.closest(".student[target]").attributes.target.value.toLowerCase();
+    }));
+})();

@@ -22,6 +22,11 @@ module.exports.helmet = !process.env.GULPING ? {} : {
     contentSecurityPolicy: false
 };
 
+module.exports.serverInfo = {
+    host: process.env.HOST || "localhost",
+    port: process.env.PORT || 80
+};
+
 const dbTarget = () => {
     let nodeEnv = process.env.NODE_ENV || "production";
     let target = [

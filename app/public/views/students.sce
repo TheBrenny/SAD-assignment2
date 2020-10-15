@@ -3,7 +3,7 @@
 <div class="cardHolder">
     [[?= students.length > 0 ]]
         [[e= student in students ]]
-            [[c= components/student || name=student.name studentID=student.id ]]
+            [[c= components/student || fname=student.firstName lname=student.lastName studentID=student.studentID ]]
         [[?==]]
     [[3=]]
         <p id="noStudents" style="text-align: center">There aren't any students registered!</p>

@@ -14,10 +14,7 @@ require("./util_and_polyfill"); // only needs to be called once for the app!
 require("./db/db"); // initial load of the DB.
 
 const config = require("./config");
-const serverInfo = {
-    host: process.env.HOST || "localhost",
-    port: process.env.PORT || 80
-};
+const serverInfo = config.serverInfo;
 
 // Express related stuff
 const path = require('path');

@@ -1,10 +1,10 @@
-WITH cte_Exam AS (
-    SELECT examid, examname, parentid
-    FROM Exam
-    WHERE examid = ${examid}
+WITH cte_Activity AS (
+    SELECT activityid, activityname, parentid
+    FROM Activity
+    WHERE activityid = ${activityid}
     UNION ALL
-    SELECT e.examid, e.examname, e.parentid
-    FROM Exam AS e
-  		INNER JOIN cte_Exam AS p ON p.parentid = e.examid
+    SELECT e.activityid, e.activityname, e.parentid
+    FROM Activity AS e
+  		INNER JOIN cte_Activity AS p ON p.parentid = e.activityid
 )
-SELECT * FROM cte_Exam;
+SELECT * FROM cte_Activity;

@@ -109,9 +109,9 @@ class Activity extends Schema {
 }
 class ActivityCompleted extends Schema {
     constructor(student, activity, completionDate) {
-        super([student, ["Number", "Student"], true], [activity, ["Number", "Exam"], true], [completionDate, ["String", "Date"], true]);
+        super([student, ["Number", "Student"], true], [activity, ["Number", "Activity"], true], [completionDate, ["String", "Date"], true]);
         this.studentID = student.constructor.name === "Student" ? student.studentID : student;
-        this.activityID = activity.constructor.name === "Exam" ? activity.activityID : activity;
+        this.activityID = activity.constructor.name === "Activity" ? activity.activityID : activity;
         this.completionDate = completionDate.constructor.name === "Date" ? completionDate.toLocaleString() : completionDate;
     }
     static buildFromRow(row) {

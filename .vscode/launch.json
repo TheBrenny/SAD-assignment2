@@ -31,6 +31,24 @@
       "type": "node"
     },
     {
+      "name": "Demo",
+      "request": "launch",
+      "runtimeArgs": [
+        "run-script",
+        "start"
+      ],
+      "env": {
+        "HOST": "sadass",
+        "NODE_ENV": "dev",
+        "DEMO_MODE": "true"
+      },
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    },
+    {
       "name": "Test All",
       "request": "launch",
       "runtimeArgs": [
