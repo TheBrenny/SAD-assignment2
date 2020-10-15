@@ -6,6 +6,20 @@
   "configurations": [
     {
       "args": [
+        "-LLLL",
+        "${input:gulpTask}"
+      ],
+      "name": "Gulp task",
+      "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
+      "request": "launch",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    },
+    {
+      "args": [
+        "-LLLL",
         "dev"
       ],
       "name": "dev",
@@ -47,5 +61,12 @@
       ],
       "type": "pwa-node"
     },
+  ],
+  "inputs": [
+    {
+      "id": "gulpTask",
+      "type": "promptString",
+      "description": "Gulp task to debug"
+    }
   ]
 }

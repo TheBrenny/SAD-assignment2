@@ -21,6 +21,8 @@ CREATE TABLE ClassGroup (
   groupName VARCHAR(20) NOT NULL,
   PRIMARY KEY (groupID)
 );
+INSERT INTO ClassGroup (groupID, groupName) VALUES
+  (-1, "Groupless");
 
 CREATE TABLE Exam (
   examID INTEGER NOT NULL,

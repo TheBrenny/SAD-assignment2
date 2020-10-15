@@ -24,7 +24,7 @@ test.serial("sql templates", t => {
         new schema.Student(1, "Josie", "Curtis", "2000-12-23", 0),
     ];
 
-    let newStudents = db.templateFromFile("newStudent", students);
+    let newStudents = db.templateFromFile("student.new", students);
     let target = 'INSERT INTO Student (studentID, firstName, lastName, dob, groupID) VALUES (0, "Jarod", "Brennfleck", DATE("1999-02-01"), 0) , (1, "Josie", "Curtis", DATE("2000-12-23"), 0) ;';
 
     t.is(newStudents, target);
@@ -42,7 +42,7 @@ test("insert students", async t => {
         new schema.Student(3, "Josie", "Curtis", "2002-11-15", 0),
     ];
 
-    let newStudents = db.templateFromFile("newStudent", students);
+    let newStudents = db.templateFromFile("student.new", students);
 
     await t.notThrowsAsync(db.exec(newStudents));
 });
@@ -55,7 +55,7 @@ test("no duplicate PKs", async t => {
         new schema.Student(0, "Josie", "Curtis", "2002-11-15", 0),
     ];
 
-    let newStudents = db.templateFromFile("newStudent", students);
+    let newStudents = db.templateFromFile("student.new", students);
 
     await t.throwsAsync(db.exec(newStudents));
 });

@@ -13,6 +13,8 @@
  * 11 Oct 20
  */
 
+const util = require('util');
+
 class Schema {
     constructor(...args) {
         args = Array.from(args);
@@ -31,7 +33,7 @@ class Schema {
 
     insertInto() {
         let table = this.constructor.name;
-        let objs = Object.entries(this).filter(e => !Object.isOneNull(e[1]));
+        let objs = Object.entries(this).filter(e => [e[1]].containsNull()); //!Object.isOneNull(e[1]));
         let cols = objs.map(e => e[0]).join(",");
         let vals = objs.map(e => e[1]).map(e => typeof e === "number" ? e : `"${e}"`).join(",");
         let ret = `INSERT INTO ${table} (${cols}) VALUES (${vals});`;
@@ -39,9 +41,9 @@ class Schema {
         return ret;
     }
     insertValues() {
-            let objs = Object.entries(this).filter(e => !Object.isOneNull(e[1]));
-            let vals = objs.map(e => e[1]).join(",");
-            return `(${vals})`;
+        let objs = Object.entries(this).filter(e => [e[1]].containsNull()); //!Object.isOneNull(e[1]));
+        let vals = objs.map(e => e[1]).join(",");
+        return `(${vals})`;
     }
 }
 
@@ -131,10 +133,10 @@ module.exports = {
 module.exports.insertMany = function (...vals) {
     if (vals.length === 0) return "";
     if (Array.isArray(vals[0])) vals = vals[0];
-    if (vals.some(v => !v.inherits(Schema.prototype))) return "";
+    if (vals.some(v => !v.doesExtend(Schema))) return "";
     if (vals.map(v => v.constructor.name).some(v => v !== vals[0].constructor.name)) return "";
     let table = vals[0].constructor.name;
-    let objs = Object.entries(vals[0]).filter(e => !Object.isOneNull(e[1]));
+    let objs = Object.entries(vals[0]).filter(e => [e[1]].containsNull()); //!Object.isOneNull(e[1]));
     let cols = objs.map(e => e[0]).join(",");
     let theVals = vals.map(v => v.insertValues());
     let ret = `INSERT INTO ${table} (${cols}) VALUES ${theVals.join(",")};`;
@@ -142,7 +144,7 @@ module.exports.insertMany = function (...vals) {
     return ret;
 };
 module.exports.formatDateToSQL = function (date) {
-    if (!date.inherits(Date.prototype)) return date;
+    if (!date.doesExtend(Date)) return date;
     let ret = [date.getFullYear(), (new Date().getMonth())];
     return;
 
