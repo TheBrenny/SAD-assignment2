@@ -24,12 +24,12 @@ CREATE TABLE ClassGroup (
 INSERT INTO ClassGroup (groupID, groupName) VALUES
   (-1, "Groupless");
 
-CREATE TABLE Exam (
-  examID INTEGER NOT NULL,
+CREATE TABLE Activity (
+  activityID INTEGER NOT NULL,
   parentID INTEGER,
-  examName VARCHAR(50) NOT NULL UNIQUE,
-  PRIMARY KEY (examID),
-  FOREIGN KEY (parentID) REFERENCES Exam (examID)
+  activityName VARCHAR(50) NOT NULL UNIQUE,
+  PRIMARY KEY (activityID),
+  FOREIGN KEY (parentID) REFERENCES Activity (activityID)
 );
 
 CREATE TABLE Student (
@@ -50,11 +50,11 @@ CREATE TABLE AttendanceRecord (
   FOREIGN KEY (student) REFERENCES Student(studentID),
   FOREIGN KEY (attendance) REFERENCES Attendance(attendID)
 );
-CREATE TABLE ExamCompleted (
+CREATE TABLE ActivityCompleted (
   student INTEGER NOT NULL,
-  exam INTEGER NOT NULL,
+  activity INTEGER NOT NULL,
   completionDate DATE NOT NULL,
-  PRIMARY KEY (student, exam),
+  PRIMARY KEY (student, activity),
   FOREIGN KEY (student) REFERENCES Student (studentID),
-  FOREIGN KEY (exam) REFERENCES Exam (examID)
+  FOREIGN KEY (activity) REFERENCES Activity (activityID)
 );

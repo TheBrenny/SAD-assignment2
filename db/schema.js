@@ -53,8 +53,8 @@ class Attendance extends Schema {
         this.attendID = attendID;
         this.attendName = attendName.substring(0, 20);
     }
-    static buildFromRow(row, complex) {
-        if (complex) console.log("Complex mode isn't built yet");
+    static buildFromRow(row) {
+        if (Array.isArray(row)) return row.map(r => this.buildFromRow(r));
         return new Attendance(row.attendID, row.attendName);
     }
 }
@@ -64,6 +64,10 @@ class AttendanceRecord extends Schema {
         this.studentID = student.constructor.name === "Student" ? student.studentID : student;
         this.recordDate = recordDate;
         this.attendID = attendance.constructor.name === "Attendance" ? attendance.attendID : attendance;
+    }
+    static buildFromRow(row) {
+        if (Array.isArray(row)) return row.map(r => this.buildFromRow(r));
+        return new AttendanceRecord(row.studentID, row.recordDate, row.attendID);
     }
 }
 class Student extends Schema {
@@ -75,12 +79,20 @@ class Student extends Schema {
         this.dob = dob.constructor.name === "Date" ? dob.toLocaleString() : dob;
         this.groupID = group.constructor.name === "Group" ? group.groupID : group;
     }
+    static buildFromRow(row) {
+        if (Array.isArray(row)) return row.map(r => this.buildFromRow(r));
+        return new Student(row.studentID, row.firstName, row.lastName, row.dob, row.groupID);
+    }
 }
 class ClassGroup extends Schema {
     constructor(groupID, groupName) {
         super([groupID, "Number", true], [groupName, "String", true]);
         this.groupID = groupID;
         this.groupName = groupName.substring(0, 20);
+    }
+    static buildFromRow(row) {
+        if (Array.isArray(row)) return row.map(r => this.buildFromRow(r));
+        return new ClassGroup(row.groupID, row.groupName);
     }
 }
 class Activity extends Schema {
@@ -90,13 +102,21 @@ class Activity extends Schema {
         this.parentID = parent.constructor.name === "Activity" ? parent.activityID : parent;
         this.activityName = activityName.substring(0, 50);
     }
+    static buildFromRow(row) {
+        if (Array.isArray(row)) return row.map(r => this.buildFromRow(r));
+        return new Activity(row.activityID, row.parentID, row.activityName);
+    }
 }
 class ActivityCompleted extends Schema {
-    constructor(student, exam, completionDate) {
-        super([student, ["Number", "Student"], true], [exam, ["Number", "Exam"], true], [completionDate, ["String", "Date"], true]);
+    constructor(student, activity, completionDate) {
+        super([student, ["Number", "Student"], true], [activity, ["Number", "Exam"], true], [completionDate, ["String", "Date"], true]);
         this.studentID = student.constructor.name === "Student" ? student.studentID : student;
-        this.examID = exam.constructor.name === "Exam" ? exam.examID : exam;
+        this.activityID = activity.constructor.name === "Exam" ? activity.activityID : activity;
         this.completionDate = completionDate.constructor.name === "Date" ? completionDate.toLocaleString() : completionDate;
+    }
+    static buildFromRow(row) {
+        if (Array.isArray(row)) return row.map(r => this.buildFromRow(r));
+        return new ActivityCompleted(row.studentID, row.activityID, row.completionDate);
     }
 }
 

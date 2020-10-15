@@ -1,5 +1,8 @@
 const router = require('express').Router();
 const db = require('../../db/db');
+const {
+    Attendance
+} = require('../../db/schema');
 
 router.get("/attendanceTypes", async (_, res) => {
     try {

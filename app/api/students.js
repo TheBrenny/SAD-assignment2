@@ -14,14 +14,15 @@ router.get("/", async (_, res, next) => {
 });
 router.post("/", async (req, res, next) => {
     try {
-        let obj = req.body;
-        let newStudent = db.templateFromFile("student.new", obj);
-        res.send(newStudent);
+        let students = Student.buildFromRow(req.body);
+        let sqlQuery = db.templateFromFile("student.new", students);
+        await db.exec(sqlQuery);
+        res.json(students);
     } catch (e) {
         next(e);
     }
 });
-router.get("/get/:id", async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
     try {
         let students = await db.get(`SELECT * FROM Student WHERE studentID = ${req.params.id};`);
         res.json(students);
