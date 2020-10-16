@@ -7,7 +7,7 @@
 
 CREATE TABLE Attendance (
   attendID INTEGER NOT NULL,
-  attendName VARCHAR(20) NOT NULL,
+  attendName TEXT NOT NULL,
   PRIMARY KEY (attendID)
 );
 
@@ -18,22 +18,22 @@ INSERT INTO Attendance (attendName) VALUES
 
 CREATE TABLE ClassGroup (
   groupID INTEGER NOT NULL,
-  groupName VARCHAR(20) NOT NULL,
+  groupName TEXT NOT NULL,
   PRIMARY KEY (groupID)
 );
 
 CREATE TABLE Activity (
   activityID INTEGER NOT NULL,
   parentID INTEGER,
-  activityName VARCHAR(50) NOT NULL UNIQUE,
+  activityName TEXT NOT NULL UNIQUE,
   PRIMARY KEY (activityID),
   FOREIGN KEY (parentID) REFERENCES Activity (activityID)
 );
 
 CREATE TABLE Student (
   studentID INTEGER NOT NULL,
-  firstName VARCHAR(20) NOT NULL,
-  lastName VARCHAR(60) NOT NULL,
+  firstName TEXT NOT NULL,
+  lastName TEXT NOT NULL,
   dob DATE NOT NULL,
   groupID INTEGER NOT NULL,
   PRIMARY KEY (studentID),

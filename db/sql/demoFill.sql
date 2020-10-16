@@ -28,10 +28,7 @@ INSERT INTO Activity (activityID, parentID, activityName) VALUES
     (11, 1, "Shooting"),
       (12, 11, "Safety"),
       (13, 12, "Weapon Parts"),
-      (14, 12, "Marksmanship");
-
-  -- (x, null, "History"),
-  --   (x, x, "Modern History"),
-  --   (x, x, "Ancient History"),
-  -- (x, null, "Technology"),
-  --   (x, x, "");
+      (14, 12, "Marksmanship"),
+  (15, null, "History"),
+    (16, 15, "Modern History"),
+    (17, 15, "Ancient History");
