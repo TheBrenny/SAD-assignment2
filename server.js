@@ -41,6 +41,7 @@ app.use("/assets", express.static(path.join(public, "assets")));
 app.use('/api', require('./app/api/routes'));
 app.use(require('./app/public/routes'));
 app.use(require('./app/errorRouter'));
+app.use(require('./app/errorRouter').handler);
 
 app.listen(serverInfo.port, serverInfo.host, () => {
     if (process.env.NODE_ENV === 'dev' && process.env.GUPLING == 'true') serverInfo.port = 81;
