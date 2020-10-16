@@ -49,24 +49,32 @@ div.student {
   flex-flow: row wrap;
   justify-content: space-evenly;
   align-items: flex-start;
-  align-content: flex-start; }
-  .cardHolder .card {
-    width: 200px;
-    padding: 10px;
-    background: #EFEFEF;
-    border-radius: 0.7em;
-    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.26), 0 4px 14px 0 rgba(0, 0, 0, 0.22);
-    transition: transform 200ms ease;
-    cursor: pointer;
-    margin: 1em 0; }
-    .cardHolder .card:hover {
+  align-content: flex-start;
+  gap: 1rem; }
+
+.card {
+  width: 200px;
+  padding: 10px;
+  background: #EFEFEF;
+  border-radius: 0.7em;
+  box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.26), 0 4px 14px 0 rgba(0, 0, 0, 0.22);
+  transition: transform 200ms ease;
+  margin: 1em 0; }
+  .clickable > .card {
+    cursor: pointer; }
+    .clickable > .card:hover {
       transform: scale(1.1); }
-    .cardHolder .card .studentImage,
-    .cardHolder .card img {
-      width: inherit;
-      height: inherit; }
+
+.studentImage,
+img {
+  width: inherit;
+  height: inherit; }
 
 app {
   display: flex;
   flex-flow: column;
   margin: 1rem 2.5rem; }
+  @media (min-width: 1024px) {
+    app {
+      max-width: calc(1024px - 2.5rem * 2);
+      margin: 1rem auto; } }

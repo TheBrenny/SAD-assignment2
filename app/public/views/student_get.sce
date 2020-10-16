@@ -1,6 +1,5 @@
 [[i= partials/header ]]
 
-<h1 style="text-align: center">Coming soon!</h1>
+[[c= components/student || fname=student.firstName lname=student.lastName studentID=student.studentID ]]
 
-<script src="/assets/js/students.js"></script>
 [[i= partials/footer ]]

@@ -11,7 +11,7 @@ const nodeFetch = require("node-fetch");
 const fetchTarget = require("../../config").serverInfo;
 const fetchAPI = (req, path) => {
     let target = req.protocol + "://" + req.host + "/api" + path;
-    return nodeFetch(target);
+    return nodeFetch(target).then(r => r.json());
 };
 
 function getPageData(req, _) {
@@ -24,37 +24,54 @@ function getPageData(req, _) {
     };
 }
 
+// ====== HOME ======
+
 router.get(['/', '/home'], (req, res) => {
     res.render('home', {
         ...getPageData(req, res),
     });
 });
+
+// ====== STUDENTS ======
+
 router.get('/students', async (req, res) => {
     res.render('students', {
         ...getPageData(req, res),
-        students: await (fetchAPI(req, "/students").then(r => r.json()))
+        students: await (fetchAPI(req, "/students"))
     });
 });
 router.get('/students/:id', async (req, res) => {
     res.render('student_get', {
         ...getPageData(req, res),
+        student: await (fetchAPI(req, "/students/" + req.params.id))
     });
 });
+
+// ====== ATTENDANCE ======
+
 router.get('/attendance', (req, res) => {
     res.render('home', {
         ...getPageData(req, res),
     });
 });
+
+// ====== ACTIVITIES ======
+
 router.get('/activities', (req, res) => {
     res.render('home', {
         ...getPageData(req, res),
     });
 });
+
+// ====== PLANNER ======
+
 router.get('/planner', (req, res) => {
     res.render('planner', {
         ...getPageData(req, res),
     });
 });
+
+// ====== EXTRA ======
 
 if (!!process.env.DEMO_MODE) {
     router.get('/demo', async (req, res) => {

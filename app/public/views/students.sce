@@ -1,6 +1,6 @@
 [[i= partials/header ]]
 
-<div class="cardHolder">
+<div class="cardHolder clickable">
     [[?= students.length > 0 ]]
         [[e= student in students ]]
             [[c= components/student || fname=student.firstName lname=student.lastName studentID=student.studentID ]]
