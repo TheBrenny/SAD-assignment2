@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // 404
-router.use((req, res, next) => {
+router.use((req, res, _) => {
     res.status(404);
     throw new Error(`404 Not Found. Could not ${req.method.toLowerCase()} ${req.url}`);
 });

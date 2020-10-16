@@ -32,25 +32,27 @@ router.get("/activities", async (_, res, next) => {
     }
 });
 router.get("/activities/parts", async (_, res, next) => {
-    try {
-        let activities = await db.all("SELECT * FROM Activity WHERE parentID IS NULL;");
-        res.json(activities);
-    } catch (e) {
-        next(e);
-    }
+    db.all("SELECT * FROM Activity WHERE parentID IS NULL;") // Don't need to construct tree for this one!
+        .then(respond(res))
+        .catch(dbError(next));
 });
-router.get("/activities/:pid(\\d+)", async (_, res, next) => {
-    let part = await db.get(`SELECT * FROM Activity WHERE parentID IS NULL AND activityID = ${req.params.pid};`);
-
+router.get("/activities/:pid(\\d+)", async (req, res, next) => {
+    let pid = req.params.pid;
+    db.all(`SELECT a.* FROM Activity a;`) // lets get all and use construct tree to cut shit off.
+        .then(rows => Activity.constructTree(rows, 3))
+        .then(tree => tree.find(t => t.activityID == pid))
+        .then(r => {
+            if (typeof r === "undefined") throw new Error("Part with id [" + pid + "] not found.");
+            return r;
+        })
+        .then(respond(res))
+        .catch(dbError(next));
 });
 router.get("/activities/topics", async (_, res, next) => {
-    let parts = `SELECT * FROM Activity WHERE parentID IS NULL`;
-    try {
-        let activities = await db.all(`SELECT a.* FROM Activity a LEFT JOIN (${parts}) AS p WHERE a.parentID = p.activityID;`);
-        res.json(activities);
-    } catch (e) {
-        next(e);
-    }
+    db.all(`SELECT a.* FROM Activity a;`) // lets get all and use construct tree to cut shit off.
+        .then(rows => Activity.constructTree(rows, 2))
+        .then(respond(res))
+        .catch(dbError(next));
 });
 //#endregion
 
@@ -58,55 +60,56 @@ router.get("/activities/topics", async (_, res, next) => {
 //#region 
 // router.use("/attendance", require("./attendance"));
 router.get("/attendance", async (_, res) => {
-    try {
-        let types = await db.all("SELECT * FROM Attendance;");
-        res.json(types);
-    } catch (e) {
-        next(e);
-    }
+    db.all("SELECT * FROM Attendance;")
+        .then(respond(res))
+        .catch(dbError(next));
 });
 //#endregion
 
 // ====== GROUPS ======
 //#region 
 router.get("/groups", async (req, res, next) => {
-    try {
-        let groups = await db.all("SELECT * FROM ClassGroup;");
-        res.json(groups);
-    } catch (e) {
-        next(e);
-    }
+    db.all("SELECT * FROM ClassGroup;")
+        .then(respond(res))
+        .catch(dbError(next));
 });
 router.post("/groups", async (req, res, next) => {
-    try {
-        let group = ClassGroup.buildFromRow(req.body);
-        let sqlQuery = db.templateFromFile("group.new", group);
-        await db.exec(sqlQuery);
-        res.json(group);
-    } catch (e) {
-        next(e);
-    }
+    db.exec(db.templateFromFile("group.new", ClassGroup.buildFromRow(req.body)))
+        .then(success(res))
+        .catch(dbError(next));
 });
 //#endregion
 
 // ====== PLANNER ======
 //#region 
-router.use("/planner", require("./planner"));
+router.get("/planner", async (req, res, next) => {
+    success(res);
+});
 //#endregion
 
 // ====== STUDENTS ======
 //#region 
 router.get("/students", async (_, res, next) => {
-    db.all("SELECT * FROM Student;").then(r => res.json(r)).catch(next);
+    db.all("SELECT * FROM Student;")
+        .then(respond(res))
+        .catch(dbError(next));
 });
 router.post("/students", async (req, res, next) => {
     let students = Student.buildFromRow(req.body);
-    // students.studentID = "NULL"; // enforce a "null"ed studentID
+    if (!Array.isArray(students)) students = [students];
+
+    students.forEach(s => s.studentID = "NULL"); // enforce a "null"ed studentID
+
     let sqlQuery = db.templateFromFile("student.new", students);
-    db.exec(sqlQuery).then(() => res.json(students)).catch((e) => next(dbError(e)));
+
+    db.exec(sqlQuery)
+        .then(success(res))
+        .catch(dbError(next));
 });
 router.get("/students/:id", async (req, res, next) => {
-    db.get(`SELECT * FROM Student WHERE studentID = ${req.params.id};`).then(r => res.json(r)).catch(next);
+    db.get(`SELECT * FROM Student WHERE studentID = ${req.params.id};`)
+        .then(respond(res))
+        .catch(dbError(next));
 });
 //#endregion
 
@@ -114,24 +117,38 @@ router.get("/students/:id", async (req, res, next) => {
 //#region
 if (!!process.env.DEMO_MODE) {
     router.get('/demo', async (_, res, next) => {
-        try {
-            await db.exec(db.sqlFromFile("demoEmpty"));
-            await db.exec(db.sqlFromFile("demoFill"));
-            res.json({
-                success: true
-            });
-        } catch (e) {
-            next(e);
-        }
+        Promise.all([
+                db.exec(db.sqlFromFile("demoEmpty")),
+                db.exec(db.sqlFromFile("demoFill"))
+            ])
+            .then(success(res))
+            .catch(dbError(next));
     });
 }
 
-function dbError(e) {
-    return Object.assign(e, {
+// A wrapper function to help keep good CRUD calls concise!
+// Takes the response object.
+function success(res) {
+    return (d) => res.json(Object.assign({
+        success: true,
+    }, !!d ? {
+        data: d
+    } : {}));
+}
+
+// A wrapper function to help keep .then() calls concise!
+// Takes the response object.
+function respond(res) {
+    return (r) => res.json(r);
+}
+
+// A wrapper function to help keep .catch() calls concise!
+// Takes the "next" express function.
+function dbError(next) {
+    return (e) => next(Object.assign(e, {
         statusCode: 400
-    });
+    }));
 }
-
 //#endregion
 
 module.exports = router;

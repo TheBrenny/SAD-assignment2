@@ -106,6 +106,97 @@ class Activity extends Schema {
         if (Array.isArray(row)) return row.map(r => this.buildFromRow(r));
         return new Activity(row.activityID, row.parentID, row.activityName);
     }
+    static constructTree(activities, depth) {
+        //#region a really big comment
+        /*
+         * Right now my thought process:
+         *
+         * So I thought of just doing a single pass but considering the data
+         * we're getting that's not possible... Also what if by chance all the
+         * parts are at the end of the list.
+         * 
+         * So now I'm thinking that we have to run three times over, creating
+         * a new depth level each time:
+         *    1st pass - Look for parentID === null
+         *    2nd pass - Look for parentID exists and use it
+         *    3rd pass - Deep Look for parentID using ".children"
+         * We can do these while removing the elemants we've operated on
+         * 
+         * There's likely to be a much better way to do this, but I can't think
+         * of it rn, and I don't want to waste time.
+         * 
+         * A more efficient way to do this could be to represent it as a tree
+         * root -- start at the bottom (the lowest children) and build upward.
+         * The only issue is that it would pretty much require object
+         * duplication when accessing parents - think about it...
+         */
+        //#endregion
+
+        depth = depth || 3; //1=parts only, 2=topics, 3=tests (all)
+        let output = [];
+        let copy = [];
+        if (!Array.isArray(activities)) activities = [activities];
+        activities = Array.from(activities); // enforce array! (also gives me typings!)
+        let newActivity = (aid, pid, name) => Object.assign({}, {
+            activityID: aid,
+            parentID: pid,
+            activityName: name,
+            children: []
+        });
+
+        // FIRST PASS
+        if (depth >= 1) {
+            copy = Array.from(activities);
+            for (let i = 0; i < copy.length; i++) {
+                let a = copy[i];
+                if (a.parentID === null) {
+                    output.push(newActivity(a.activityID, null, a.activityName));
+                    activities.splice(i, 1);
+                }
+            }
+        }
+
+        // SECOND PASS
+        if (depth >= 2) {
+            copy = Array.from(activities);
+            for (let i = 0; i < copy.length; i++) {
+                let a = copy[i];
+                let pIdx = output.length - 1;
+                for (; pIdx >= 0; pIdx--) { // go backwards so we can reach -1 without extra logic
+                    if (output[pIdx].activityID === a.parentID) break; // exit the loop, halting pIdx--
+                }
+
+                if (pIdx >= 0) {
+                    output[pIdx].children.push(newActivity(a.activityID, a.parentID, a.activityName));
+                    activities.splice(i, 1); // remove this bc it's been opped on.
+                }
+            }
+        }
+
+        // THIRD PASS
+        if (depth >= 3) {
+            copy = Array.from(activities);
+            for (let i = 0; i < copy.length; i++) {
+                let a = copy[i];
+                let pIdx = output.length - 1;
+                let tIdx = -1;
+                for (; pIdx >= 0; pIdx--) { // go backwards so we can reach -1 without extra logic
+                    tIdx = output[pIdx].children.length - 1;
+                    for (; tIdx >= 0; tIdx--) {
+                        if (output[pIdx].children[tIdx].activityID === a.parentID) break; // exit the loop, halting pIdx--
+                    }
+                    if (tIdx >= 0) break; // break because if we aren't -1, then we broke the above loop.
+                }
+
+                if (pIdx >= 0) {
+                    output[pIdx].children[tIdx].children.push(newActivity(a.activityID, a.parentID, a.activityName));
+                    activities.splice(i, 1); // remove this bc it's been opped on.
+                }
+            }
+        }
+
+        return output;
+    }
 }
 class ActivityCompleted extends Schema {
     constructor(student, activity, completionDate) {
