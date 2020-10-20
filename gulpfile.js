@@ -11,7 +11,6 @@ const browserSync = require('browser-sync').create();
 const nodemon = require('gulp-nodemon');
 const fs = require('fs');
 const path = require('path');
-const log = require("fancy-log");
 const host = "sadass";
 const config = require('./config');
 
@@ -59,7 +58,8 @@ gulp.task("nodemon", function (cb) {
     });
 });
 gulp.task("watch", gulp.series("sass", function (cb) {
-    gulp.watch("app/public/assets/scss/**/*.scss", gulp.series("sass")).on("error", log.error);
+    gulp.watch("app/public/assets/scss/**/*.scss", gulp.series("sass"));
+    console.log("Watching SCSS!");
     cb();
 }));
 

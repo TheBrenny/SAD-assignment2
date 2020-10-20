@@ -5,6 +5,15 @@ html {
   background: #1D8Ac4;
   color: #222222; }
 
+app {
+  display: flex;
+  flex-flow: column;
+  margin: 1rem 2.5rem; }
+  @media (min-width: 1024px) {
+    app {
+      max-width: calc(1024px - 2.5rem * 2);
+      margin: 1rem auto; } }
+
 blockquote.error {
   background: #AAAAAA;
   padding: 1rem 1.5rem;
@@ -70,11 +79,40 @@ img {
   width: inherit;
   height: inherit; }
 
-app {
+.studentHeader {
   display: flex;
-  flex-flow: column;
-  margin: 1rem 2.5rem; }
-  @media (min-width: 1024px) {
-    app {
-      max-width: calc(1024px - 2.5rem * 2);
-      margin: 1rem auto; } }
+  justify-content: space-between;
+  gap: 3rem; }
+  .studentHeader > .searchbox {
+    width: 100%; }
+  .studentHeader > .newStudent {
+    width: 250px; }
+
+input.searchbox {
+  border-radius: 0.6rem;
+  padding: 0.5em !important;
+  font-size: 1.3rem;
+  border: none;
+  display: block;
+  box-sizing: border-box;
+  transition: border 0.2s;
+  border-bottom: 0.2em solid rgba(186, 230, 23, 0); }
+  input.searchbox:hover, input.searchbox:focus {
+    border-bottom: 0.2em solid #BAE617;
+    outline: none; }
+
+.btn {
+  background: #BAE617;
+  padding: 1rem;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  transition: 0.2s ease-out;
+  user-select: none;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .btn:hover {
+    background: #82a010; }
+  .btn:active {
+    background: #5c720b; }

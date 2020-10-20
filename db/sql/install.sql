@@ -11,10 +11,10 @@ CREATE TABLE Attendance (
   PRIMARY KEY (attendID)
 );
 
-INSERT INTO Attendance (attendName) VALUES
-  ("Present"),
-  ("Absent"),
-  ("Sick");
+INSERT INTO Attendance (attendID, attendName) VALUES
+  (1, "Present"),
+  (2, "Absent"),
+  (3, "Sick");
 
 CREATE TABLE ClassGroup (
   groupID INTEGER NOT NULL,

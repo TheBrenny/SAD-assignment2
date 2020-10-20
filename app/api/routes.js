@@ -22,7 +22,6 @@ const {
 
 // ====== ACTIVITIES ======
 //#region 
-// router.use("/activities", require("./activities"));
 router.get("/activities", async (_, res, next) => {
     try {
         let activities = await db.all("SELECT * FROM Activity;");
@@ -106,8 +105,13 @@ router.post("/students", async (req, res, next) => {
         .then(success(res))
         .catch(dbError(next));
 });
-router.get("/students/:id", async (req, res, next) => {
+router.get("/students/:id(\\d+)", async (req, res, next) => {
     db.get(`SELECT * FROM Student WHERE studentID = ${req.params.id};`)
+        .then(respond(res))
+        .catch(dbError(next));
+});
+router.get("/students/search/:query", async (req, res, next) => {
+    db.all(`SELECT * FROM Student WHERE firstName LIKE "%${req.params.query}%" OR lastName LIKE "%${req.params.query}%"`)
         .then(respond(res))
         .catch(dbError(next));
 });

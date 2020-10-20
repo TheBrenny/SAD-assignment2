@@ -1,6 +1,6 @@
 <div class="flex navbar">
     <div class="navbarItem
-    [[?= page.toLowerCase() == 'home' ]]
+    [[?= page.toLowerCase() == 'home' || page == '' ]]
     active
     [[?==]]
     " target="Home">Home</div>

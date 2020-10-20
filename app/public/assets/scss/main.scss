@@ -7,6 +7,7 @@ $orange: #D69F40;
 $navActive: $orange;
 $navHover: scale-color($navActive, $lightness: -20%);
 $navInactive: scale-color($navActive, $lightness: -30%);
+$btnColor: $green;
 $black: #222222; // Text color
 $notblack: #444444;
 $white: #EFEFEF; // White could be accent?
@@ -18,6 +19,17 @@ $grey: #AAAAAA; // White could be accent?
 html {
     background: $blue;
     color: $black;
+}
+
+app {
+    display: flex;
+    flex-flow: column;
+    margin: 1rem 2.5rem;
+
+    @include desktop {
+        max-width: calc(1024px - 2.5rem * 2);
+        margin: 1rem auto;
+    }
 }
 
 blockquote.error {
@@ -108,13 +120,55 @@ img {
     height: inherit;
 }
 
-app {
+.studentHeader {
     display: flex;
-    flex-flow: column;
-    margin: 1rem 2.5rem;
+    justify-content: space-between;
+    gap: 3rem;
 
-    @include desktop {
-        max-width: calc(1024px - 2.5rem * 2);
-        margin: 1rem auto;
+    &>.searchbox {
+        width: 100%;
+    }
+
+    &>.newStudent {
+        width: 250px;
+    }
+}
+
+input.searchbox {
+    border-radius: 0.6rem;
+    padding: 0.5em !important;
+    font-size: 1.3rem;
+    border: none;
+    display: block;
+    box-sizing: border-box;
+    transition: border 0.2s;
+    border-bottom: 0.2em solid rgba($green, 0);
+
+    &:hover,
+    &:focus {
+        border-bottom: 0.2em solid $green;
+        outline: none;
+    }
+}
+
+.btn {
+    background: $btnColor;
+    padding: 1rem;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    transition: 0.2s ease-out;
+    user-select: none;
+    text-align: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+        background: darken($btnColor, 15%);
+    }
+
+    &:active {
+        background: darken($btnColor, 25%);
     }
 }

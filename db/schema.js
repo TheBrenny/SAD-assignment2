@@ -13,8 +13,6 @@
  * 11 Oct 20
  */
 
-const util = require('util');
-
 class Schema {
     constructor(...args) {
         args = Array.from(args);

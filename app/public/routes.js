@@ -8,11 +8,11 @@
 const express = require('express');
 const router = express.Router();
 const nodeFetch = require("node-fetch");
-const fetchTarget = require("../../config").serverInfo;
-const fetchAPI = (req, path) => {
+
+function fetchAPI(req, path) {
     let target = req.protocol + "://" + req.host + "/api" + path;
     return nodeFetch(target).then(r => r.json());
-};
+}
 
 function getPageData(req, _) {
     let part = req.url.substring(1);
@@ -37,13 +37,26 @@ router.get(['/', '/home'], (req, res) => {
 router.get('/students', async (req, res) => {
     res.render('students', {
         ...getPageData(req, res),
-        students: await (fetchAPI(req, "/students"))
+        students: await (fetchAPI(req, "/students")),
+        searchTerm: ""
     });
 });
-router.get('/students/:id', async (req, res) => {
+router.get("/students/search/:query", async (req, res) => {
+    res.render('students', {
+        ...getPageData(req, res),
+        students: await (fetchAPI(req, "/students/search/" + req.params.query)),
+        searchTerm: req.params.query
+    });
+});
+router.get('/students/:id(\\d+)', async (req, res) => {
     res.render('student_get', {
         ...getPageData(req, res),
         student: await (fetchAPI(req, "/students/" + req.params.id))
+    });
+});
+router.get('/students/new', async (req, res) => {
+    res.render('student_new', {
+        ...getPageData(req, res)
     });
 });
 
