@@ -1336,7 +1336,7 @@
 											"top": 124,
 											"width": 126,
 											"height": 13,
-											"text": "+description",
+											"text": "+name",
 											"horizontalAlignment": 0
 										}
 									],
@@ -2608,7 +2608,7 @@
 											"top": 700,
 											"width": 126,
 											"height": 13,
-											"text": "+description",
+											"text": "+name",
 											"horizontalAlignment": 0
 										}
 									],
@@ -5497,7 +5497,16 @@
 							"_parent": {
 								"$ref": "AAAAAAF03QyqlFIfmdY="
 							},
-							"name": "name"
+							"name": "name",
+							"type": ""
+						},
+						{
+							"_type": "UMLAttribute",
+							"_id": "AAAAAAF1SjWK4hboP84=",
+							"_parent": {
+								"$ref": "AAAAAAF03QyqlFIfmdY="
+							},
+							"name": "mandatory"
 						}
 					]
 				},
@@ -6752,13 +6761,30 @@
 											"height": 13,
 											"text": "+name",
 											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLAttributeView",
+											"_id": "AAAAAAF1SjWK9xbroI4=",
+											"_parent": {
+												"$ref": "AAAAAAF03ZHo61Nbyc8="
+											},
+											"model": {
+												"$ref": "AAAAAAF1SjWK4hboP84="
+											},
+											"font": "Arial;13;0",
+											"left": 373,
+											"top": 611,
+											"width": 126,
+											"height": 13,
+											"text": "+mandatory",
+											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 368,
 									"top": 561,
 									"width": 136,
-									"height": 53
+									"height": 68
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -6771,7 +6797,7 @@
 									},
 									"font": "Arial;13;0",
 									"left": 368,
-									"top": 614,
+									"top": 629,
 									"width": 136,
 									"height": 10
 								},
@@ -6813,7 +6839,7 @@
 							"left": 368,
 							"top": 536,
 							"width": 136,
-							"height": 88,
+							"height": 103,
 							"nameCompartment": {
 								"$ref": "AAAAAAF03ZHo61NWqDQ="
 							},
