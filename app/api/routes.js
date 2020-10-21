@@ -31,7 +31,7 @@ router.get("/activities/depth/:depth(\\d+)", async (req, res, next) => {
         .then(respond(res))
         .catch(dbError(next, req));
 });
-router.get("/activities/:aid(\\d+)", async (req, res, next) => {
+router.get("/activities/:aid(\\d+)", async (req, res, next) => { // not implemented
     req.notImplemented = true;
     next();
     return;
@@ -53,7 +53,7 @@ router.get("/activities/:aid(\\d+)", async (req, res, next) => {
         .catch(dbError(next, req));
 });
 router.get("/activities/completions", async (req, res, next) => {
-    db.all(`SELECT * FROM AcitivityCompleted;`)
+    db.all(`SELECT * FROM ActivityCompleted;`)
         .then(respond(res))
         .catch(dbError(next, req));
 });
@@ -64,6 +64,27 @@ router.post("/activities/completions/record", async (req, res, next) => {
     Promise.resolve()
         .then(() => db.templateFromFile("activity.completed", ActivityCompleted.buildFromRow(completions)))
         .then(db.exec)
+        .then(async () => {
+            let changes = Array.from(completions);
+            do {
+                for (let c of changes) {
+                    const acts = await db.get(db.templateFromFile("getActivitiesForStudent", {
+                        student: c.student
+                    })); // get all activities with completions using the student from this completion
+                    c = acts.find(a => a.activityID == c.activity);
+                    if (c === null) continue; // should this be actually be a 500 error?
+
+                    let p = acts.find(a => a.activityID == c.parentID);
+                    if (typeof p === "undefined") continue;
+                    // TODO: FINISH THIS -- IT'S 0306 and I'm going to bed.
+                    // lookup all children items (pID === p.id)
+                    // if all mandatory and (0 optional items present OR 7 optional are ticked), then:
+                    //     send an INSERT INTO
+                    //     add p to changes array
+                    // finally, splice c from changes array
+                }
+            } while (changes.length > 0);
+        })
         // TODO: then(), we want to recursively (and fail-fast) check the parents to try tick them as complete
         .then(success(res))
         .catch(dbError(next, req));
@@ -124,8 +145,9 @@ router.post("/groups", async (req, res, next) => {
 
 // ====== PLANNER ======
 //#region 
-router.get("/planner", async (req, res, next) => {
-    success(res);
+router.get("/planner", async (req, res, next) => { // not implemented
+    req.notImplemented = true;
+    next();
 });
 //#endregion
 
@@ -156,8 +178,12 @@ router.get("/students/:id(\\d+)", async (req, res, next) => {
         .catch(dbError(next, req));
 });
 router.get("/students/:id(\\d+)/activities", async (req, res, next) => {
-    db.get(`SELECT a.activityID, a.activityName, a.parentID, c.completionDate FROM Activity a LEFT JOIN ActivityCompleted c ON a.activityID = c.activity WHERE c.student = ${req.params.id} OR c.completionDate IS NULL`)
-        .then(rows => Activity.constructTree(rows, 3))
+    let template = {
+        student: req.params.id
+    };
+
+    db.get(db.templateFromFile("getActivitiesForStudent", template))
+        .then(rows => Activity.constructTree(rows, 0))
         .then(respond(res))
         .catch(dbError(next, req));
 });
