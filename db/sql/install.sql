@@ -25,7 +25,7 @@ CREATE TABLE ClassGroup (
 CREATE TABLE Activity (
   activityID INTEGER NOT NULL,
   parentID INTEGER,
-  activityName TEXT NOT NULL UNIQUE,
+  activityName TEXT NOT NULL,
   PRIMARY KEY (activityID),
   FOREIGN KEY (parentID) REFERENCES Activity (activityID)
 );

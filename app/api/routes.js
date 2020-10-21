@@ -125,10 +125,9 @@ router.get("/students/search/:query", async (req, res, next) => {
 //#region
 if (!!process.env.DEMO_MODE) {
     router.get('/demo', async (_, res, next) => {
-        Promise.all([
-                db.exec(db.sqlFromFile("demoEmpty")),
-                db.exec(db.sqlFromFile("demoFill"))
-            ])
+        Promise.resolve()
+            .then(() => db.exec(db.sqlFromFile("demoEmpty")))
+            .then(() => db.exec(db.sqlFromFile("demoFill")))
             .then(success(res))
             .catch(dbError(next));
     });

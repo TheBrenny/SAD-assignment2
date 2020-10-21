@@ -1,3 +1,6 @@
+# Macs just shouldn't make these files!
+**/*.DS_STORE
+
 # Logs
 logs
 *.log

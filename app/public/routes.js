@@ -11,7 +11,12 @@ const nodeFetch = require("node-fetch");
 
 function fetchAPI(req, path) {
     let target = req.protocol + "://" + req.host + "/api" + path;
-    return nodeFetch(target).then(r => r.json());
+    return nodeFetch(target, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }).then(r => r.json());
 }
 
 function getPageData(req, _) {
