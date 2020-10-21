@@ -8,7 +8,7 @@
 (async () => {
     let searchBox = $('input.searchbox');
 
-    $$("app .student.clickable[target]").forEach(el => el.addEventListener("click", (e) => {
+    $$("app .clickable .student[target]").forEach(el => el.addEventListener("click", (e) => {
         window.location.pathname = "/students/" + e.target.closest(".student[target]").attributes.target.value.toLowerCase();
     }));
 
