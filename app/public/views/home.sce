@@ -2,8 +2,8 @@
 
 <pre>
   ✅ Add a student to the DB
-  ❌ Record attendance
-  ❌ Record activity completed
+  🔄 Record attendance (present in backend - UI not designed)
+  🔄 Record activity completed (present in backend - UI not designed)
   ✅ Search for students
       ✅ By Name
       ⬛ By Student number
