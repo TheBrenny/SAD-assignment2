@@ -35,9 +35,10 @@ router.get("/activities/parts", async (_, res, next) => {
         .then(respond(res))
         .catch(dbError(next));
 });
+
 router.get("/activities/:pid(\\d+)", async (req, res, next) => {
     let pid = req.params.pid;
-    db.all(`SELECT a.* FROM Activity a;`) // lets get all and use construct tree to cut shit off.
+    db.all(`SELECT * FROM Activity;`) // lets get all and use construct tree to cut shit off.
         .then(rows => Activity.constructTree(rows, 3))
         .then(tree => tree.find(t => t.activityID == pid))
         .then(r => {
@@ -48,7 +49,7 @@ router.get("/activities/:pid(\\d+)", async (req, res, next) => {
         .catch(dbError(next));
 });
 router.get("/activities/topics", async (_, res, next) => {
-    db.all(`SELECT a.* FROM Activity a;`) // lets get all and use construct tree to cut shit off.
+    db.all(`SELECT * FROM Activity;`) // lets get all and use construct tree to cut shit off.
         .then(rows => Activity.constructTree(rows, 2))
         .then(respond(res))
         .catch(dbError(next));
@@ -113,6 +114,11 @@ router.get("/students/:id(\\d+)", async (req, res, next) => {
     db.get(`SELECT * FROM Student WHERE studentID = ${req.params.id};`)
         .then(respond(res))
         .catch(dbError(next));
+});
+router.get("/students/:id(\\d+)/activities", async (req, res, next) => {
+    db.get(`SELECT a.activityID, a.activityName, a.parentID, c.completionDate FROM Activity a LEFT JOIN ActivityCompleted c ON a.activityID = c.activity WHERE a.studentID = ${req.params.id}`)
+    ;
+    // construct tree -- keep completion date!!!
 });
 router.get("/students/search/:query", async (req, res, next) => {
     db.all(`SELECT * FROM Student WHERE firstName LIKE "%${req.params.query}%" OR lastName LIKE "%${req.params.query}%"`)
