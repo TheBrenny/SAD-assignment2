@@ -65,25 +65,52 @@ router.post("/activities/completions/record", async (req, res, next) => {
         .then(() => db.templateFromFile("activity.completed", ActivityCompleted.buildFromRow(completions)))
         .then(db.exec)
         .then(async () => {
-            let changes = Array.from(completions);
-            do {
-                for (let c of changes) {
-                    const acts = await db.get(db.templateFromFile("getActivitiesForStudent", {
-                        student: c.student
-                    })); // get all activities with completions using the student from this completion
-                    c = acts.find(a => a.activityID == c.activity);
-                    if (c === null) continue; // should this be actually be a 500 error?
+            completions = Array.from(completions);
+            // all the activities follow the schema: activityID, activityName, parentID, mandatory, completionDate
+            for (let c of completions) {
+                // get all activities and their associated completions (or null) using the student from this completion
+                let sid = c.studentID;
+                const acts = await db.all(db.templateFromFile("getActivitiesForStudent", {
+                    studentID: sid
+                }));
 
-                    let p = acts.find(a => a.activityID == c.parentID);
-                    if (typeof p === "undefined") continue;
-                    // TODO: FINISH THIS -- IT'S 0306 and I'm going to bed.
-                    // lookup all children items (pID === p.id)
-                    // if all mandatory and (0 optional items present OR 7 optional are ticked), then:
-                    //     send an INSERT INTO
-                    //     add p to changes array
-                    // finally, splice c from changes array
+                // set 'c' to follow the above schema -- also updates to add the completion date!
+                c = acts.find(a => a.activityID == c.activityID);
+                if (c === null) continue; // should this be actually be a 500 error?
+
+                // get the parent
+                if (c.parentID === null) continue; // this is the top aka the badge
+                let parent = acts.find(a => a.activityID == c.parentID);
+                if (typeof parent === "undefined") continue; // this should be a 500 error?
+                if (parent.completionDate != null) continue;
+                // TODO: FINISH THIS -- IT'S 0306 and I'm going to bed.
+
+                // get all children items (pID === p.id) (following the above schema)
+                let children = acts.filter(a => a.parentID === parent.activityID);
+                let mandatory = children.filter(a => a.mandatory > 0);
+                let optional = children.filter(a => a.mandatory == 0);
+
+                let mandatoryDone = mandatory.filter(m => m.completionDate != null).length === mandatory.length;
+                let noOptionals = optional.length === 0;
+                let optionalsDone = optional.filter(o => o.completionDate != null).length >= 3; // THIS IS A CONSTRAINED VALUE
+
+                // if all mandatory done and (0 optional items present OR 3 optional are ticked), then:
+                if (mandatoryDone && (noOptionals || optionalsDone)) {
+                    // send an INSERT INTO
+                    await db.exec(db.templateFromFile("activity.completed", {
+                        studentID: sid,
+                        activityID: parent.activityID,
+                        completionDate: c.completionDate
+                    }));
+                    // add p to completions array
+                    completions.push(Object.assign(parent, {
+                        studentID: sid
+                    }));
                 }
-            } while (changes.length > 0);
+
+                // finally, splice c from completions array
+                // completions.splice(c) -- not doing this because we can just walk past!
+            }
         })
         // TODO: then(), we want to recursively (and fail-fast) check the parents to try tick them as complete
         .then(success(res))
@@ -179,10 +206,10 @@ router.get("/students/:id(\\d+)", async (req, res, next) => {
 });
 router.get("/students/:id(\\d+)/activities", async (req, res, next) => {
     let template = {
-        student: req.params.id
+        studentID: req.params.id
     };
 
-    db.get(db.templateFromFile("getActivitiesForStudent", template))
+    db.all(db.templateFromFile("getActivitiesForStudent", template))
         .then(rows => Activity.constructTree(rows, 0))
         .then(respond(res))
         .catch(dbError(next, req));
