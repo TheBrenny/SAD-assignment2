@@ -1,0 +1,279 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 -- Attendance;\
+-- ClassGroup;\
+-- Activity;\
+-- Student;\
+-- AttendanceRecord;\
+-- ActivityCompleted;\
+\
+-- INSERT INTO ClassGroup (groupID, groupName) VALUES\
+  -- (0, "");\
+\
+INSERT INTO Student (studentID, firstName, lastName, dob, groupID) VALUES\
+  (1, "Jarod", "Brennfleck", DATE("1999-02-01"), -1),\
+  (2, "Josie", "Curtis", DATE(\'932000-12-29), -1),\
+  (3, "Jack", "Millar", DATE("1999-02-03"), -1),\
+  (4, "Kat", "Burnett", DATE("1999-02-04"), -1);\
+\
+INSERT INTO Activity (activityID, parentID, activityName) VALUES\
+  (1, null, \'93Outdoor Activities\'94),\
+    (2, 1, "Survival\'94),\
+      	(3, 2, \'93Gathering Food"),\
+		(4, 3, \'93Set Trap for Animal\'94)\
+		(5, 3, \'93Pick Berries\'94)\
+		(6, 3, \'93Gather Insects\'94)\
+     	 (7, 2, "Cooking Food"),\
+		(8, 7, \'93Cook Meat\'94),\
+		(9, 7, \'93Prepare Berries\'94),\
+		(10, 7, \'93Prepare Insects\'94),\
+     (11, 1, \'93Protection\'94),\
+	  (12, 11, \'93Shelter Making\'94),\
+		(13, 12, \'93Gather Sticks\'94),\
+		(14, 12, \'93Gather leaves\'94),\
+		(15, 12, \'93Put Materials Together\'94),\
+     	  (16, 11, "Campfires"),\
+		(17, 11, \'93Gather Sticks\'94),\
+		(18, 11, \'93Use flint\'94),\
+    (19, 1, "Fishing"),\
+	 (20, 19, \'93Catch Fish\'94),\
+		(21, 20, \'93Lures"),\
+     	 	(22, 20, "Rods"),\
+     	 (23, 19, "Techniques"),\
+		(24, 23, \'93Casting\'94),\
+		(25, 23, \'93Reeling in\'94),\
+     (26, 1, "Shooting"),\
+	 (27, 26, "Safety"),\
+	 	(28, 27, \'93Eye protection\'94),\
+		(29, 27, \'93Clearing Weapon Drills\'94),\
+		(30, 27, \'93Cleaning Weapon\'94),\
+      	 (31, 26, "Weapon Parts"),\
+		(32, 31, \'93Body\'94),\
+		(33, 31, \'93Working Parts\'94),\
+		(34, 31, \'93Trigger Mechanism\'94),\
+     	 (35, 26, "Marksmanship"),\
+		(36, 35, \'93Breathing\'94),\
+		(37, 35, \'93Aim\'94),\
+		(38, 35, \'93Trigger Manipulation),\
+     (39, 1, \'93First aid\'94),\
+	 (40, 39, \'93Basic\'94),\
+		(41, 40, \'93Splintering\'94),\
+		(42, 40, \'93Sprains\'94),\
+		(43, 40, \'93Frost Bite\'94),\
+	(44, 39, \'93Life Threatening\'94),\
+		(45, 44, \'93CPR\'94),\
+		(46, 44, \'93Hypothermia\'94)\
+		(47, 44, \'93Excessive Bleeding\'94)\
+    (48, 1, \'93Bush Walking\'94),\
+	(49, 48, \'93Hike\'94),\
+		(50, 49, \'93Map Reading\'94),\
+		(51, 49, \'93Compass Reading\'94),\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0     (52, 1, \'93Packing\'94),\
+	 (53, 52, \'93Equipment\'94),\
+		(54, 53, \'93Cooking Equipment\'94),\
+		(55, 53, \'93Fire Starting Equipment\'94),\
+		(56, 53, \'93Correct Format of Pack\'94),\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0      (57, 1, \'93Environment\'94),\
+	(58, 57, \'93Plant Conservation\'94),\
+		(59, 58, \'93Plant Trees\'94),\
+		(60, 59, \'93Clean up Australia Day\'94),\
+		(61, 59, Earth Day\'94),\
+	(62, 57, \'93Animal Conservation\'94),\
+		(63, 62, \'93Build a habitat\'94),\
+		(64, 62, \'93Research and Endangered Species\'94),\
+     (65, 1, \'93Physical Activity\'94),\
+	(66, 65, \'93Canoeing\'94),\
+		(67, 66, \'93Techniques\'94),\
+		(68, 66, \'93Types of Boats\'94),\
+		(69, 66, \'93History\'94),\
+	(70, 1, \'93Horseback Riding\'94),\
+		(71, 70, \'93Techniques\'94),\
+		(72, 70, \'93Grooming\'94),\
+		(73, 70, Types of Horses\'94),\
+     (74, 1, \'93Sport\'94),\
+	(75, 74, \'93History\'94),\
+		(76, 75, \'93The Beginning of the Sport\'94),\
+		(77, 75, \'93Changes to the Sport\'94),\
+		(78, 75, \'93Significant Events\'94)\
+	(79, 74, \'93Rules\'94),\
+		(80, 79, \'93Report on the Rules\'94),\
+		(81, 79, \'93Changes to the Rules\'94),\
+     (82, 1, \'93Overnight Initiative\'94),\
+		(83, 82, \'93Water Challenge\'94),\
+			(84, 83, \'93Canoeing\'94),\
+			(85, 83, \'93Diving\'94),\
+		(86, 82, \'93First Aid Challenge\'94),\
+			(87, 86, \'93CPR\'94),\
+			(88, 86, \'93Major Bleeding\'94),\
+		(89, 82, \'93Navigation Challenge\'94),\
+			(90, 89, \'93Unmarked Trial\'94),\
+     (91, 1, \'93Sailing\'94),\
+		(92, 91, \'93Techniques\'94),\
+			(93, 92, \'93Knot Tying\'94),\
+			(94, 92, \'93Sailing Techniques\'94),\
+			(95, 92, \'93Rescue\'94),\
+		(96, 91, \'93Boats\'94),\
+			(97, 96, \'93Types of Boats\'94),\
+			(98, 96, \'93History of Boats\'94),\
+  (99, 1, \'93Surf Life Saving\'94),\
+		(100, 99, \'93Theory\'94),\
+			(101, 100, \'93Surf Hazards\'94),\
+			(102, 100, \'93Surf Conditions\'94),\
+			(103, 100, \'93Surf Life Saving Communication Systems\'94),\
+		(104, 99, \'93Practical\'94),\
+			(105, 104, \'93Self Survival in Surf\'94),\
+			(106, 104, \'93Respond to a Rescue\'94),\
+			(107, 104, \'93Use Flotation Equipment\'94),\
+   (108, 1, \'93Gardening\'94),\
+		(109, 108, \'93Knowledge of Plants\'94),\
+			(110, 109, \'93Types of Plants\'94),\
+			(111, 109, \'93How to Plant Seeds\'94),\
+			(112, 109, \'93How to Maintain Plants\'94),\
+		(113, 108, \'93Plant Seeds\'94),\
+			(114, 113, \'93Prepare Garden Bed\'94),\
+			(115, 113, \'93Plant Seedlings\'94),\
+			(116, 113, \'93Tend to Plants\'94),\
+\
+  (117, null, "History"),\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0        (118, 117, \'93Investigating Ancient History\'94),\
+		(119, 118, \'93Skills\'94)\
+			(120, 119, \'93Analyse Sources\'94),\
+	 		(121, 119, \'93Analyse Case Studies\'94),\
+	  	 (122, 118, \'93The Nature of Ancient History\'94),\
+			(123, 122, \'93Features of Ancient Societies\'94),\
+			(124, 122, \'93Historical Investigation\'94),\
+       (125, 117, "Ancient History\'94),\
+		(126, 125, \'93Ancient Egypt\'94),\
+			(127, 126, \'93Hieroglyphs\'94),\
+			(128, 126, \'93Pyramids\'94),\
+			(129, 126, \'93Age of Decline\'94),\
+		(130, 125, \'93Ancient Rome\'94),\
+			(131, 130, \'93Rulers\'94),\
+			(132, 130, \'93Army\'94),\
+			(133, 130, \'93Architecture\'94),\
+		(134, 125, \'93Ancient Greece\'94),\
+    			(135, 134, \'93Mythology\'94),\
+			(136, 134, \'93Philosophy\'94),\
+			(137, 134, \'93Science\'94),\
+       (138, 117, \'93Middle Ages\'94),\
+		(139, 138, \'93The Rise of Islam\'94),\
+			(140, 139, \'93Pre Islamic Arabia\'94),\
+			(141, 139, \'93Prophet Muhammad\'94),\
+			(142, 139, \'93Articles of Faith\'94),\
+	       (143, 138, \'93The Black Death\'94),\
+			(144, 143, \'93Origins\'94),\
+			(145, 143, \'93Treatments\'94),\
+			(146, 143, \'93Interesting Facts\'94),\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0         (147, 117, \'93The Bolsheviks\'94),\
+		(148, 147, \'93Political Revolution\'94),\
+			(149, 148, \'93Political Figures of Russia\'94),\
+			(150, 149, \'93Who Were the Bolsheviks\'94),\
+			(151, 149, \'93Political Unrest\'94),\
+		(152, 147, Social Revolution\'94),\
+			(153, 152, \'93Social Hierarchy\'94),\
+			(154, 152, \'93Civil Unrest\'94),\
+			(155, 152, \'93Challenges of Social Landscape\'94),\
+	(156, 117, \'93Australian History\'94)\
+		(157, 156, \'93Indigenous Culture\'94)\
+			(158, 157, \'93The Dreaming\'94),\
+			(159, 157, \'93Indigenous Art\'94),\
+	        (160, 156, \'93First Settlement\'94),\
+			(161, 160, \'93First Fleet\'94),\
+			(162, 160, \'93Arthur Phillip\'94),\
+			(163, 160, \'93Conflict\'94),\
+                (164, 156, \'93Federation\'94)\
+			(165, 164, \'93The Constitution\'94),\
+			(166, 164, \'93Edmund Barton\'94),\
+        (167, 117, \'93World War I\'94),\
+       		(168, 167, \'93Triple Entente\'94),\
+			(169, 168, \'93The Somme\'94),\
+			(170, 168, \'93Passchendale\'94),\
+			(171, 168, \'93Verdun\'94),\
+		(172, 167, \'93Axis Powers\'94),\
+			(173, 172, \'93Spring Offensive\'94),\
+			(174, 172, \'93Isonzo\'94),\
+			(175, 172, \'93Axis Failure\'94),\
+	(176, 117, \'93World War II\'94),\
+		(177, 176, \'93Major Battles\'94),\
+			(178, 177, \'93Pearl Harbour\'94),\
+			(179, 177, \'93Battle of Britain\'94),\
+			(180, 177, \'93Battle of Midway\'94),\
+		(181, 176, \'93Political Events\'94),\
+			(182, 181, \'93Germany Post WWI\'94),\
+			(183, 181, \'93German Failures\'94),\
+			(184, 181, \'93Allies Success\'94),\
+        (185, 117, \'93Vietnam War\'94),\
+		(186, 185, \'93Political Landscape\'94),\
+			(187, 186, \'93Domino Effect\'94),\
+			(188, 186, \'93WHAM\'94),\
+			(189, 186, \'93Cold War\'94),\
+		(190, 185, \'93Guerilla Warfare\'94),\
+			(191, 190, \'93Viet Cong Techniques\'94),\
+			(192, 190, \'93Allied Difficulty\'94),\
+			(193, 190, \'93Effects\'94),	 \
+         (194, 117, \'93Art\'94),\
+	       (195, 194, \'93Ancient Classical Art\'94),\
+			(196, 195, \'93Greek Sculptures\'94),\
+			(197, 195, \'93Roman Sculptures\'94),\
+	       (198, 194, \'93Medieval Art\'94),\
+			(199, 198, \'93Characteristics\'94),\
+			(200, 198, \'93Famous Artists\'94),\
+			(201, 198, \'93Style\'94),\
+	       (202, 194, \'93Renaissance\'94),\
+			(203, 202, \'93Leonardo Da Vinci\'94),\
+			(204, 202, \'93Michelangelo\'94),\
+			(205, 202, \'93Donatello\'94),\
+         (206, 117, \'93Clothes\'94),\
+		(207, 206, \'93Ancient Clothing\'94),\
+			(208, 207, \'93Fabrics\'94),\
+			(209, 207, \'93Status Symbols\'94),\
+		(210, 206, \'93Middle Ages Clothing\'94),\
+			(211, 210, \'93Knights\'94),\
+			(212, 210, \'93Headpieces\'94),\
+		(213, 206, \'93Modern Era Clothing\'94),\
+			(214, 213, \'9317th Century Females\'94),\
+			(215, 213, \'9317th Century Males\'94),\
+			(216, 213, \'93Post 20th Century\'94),\
+         (217, 117, \'93Civil Rights Movement\'94),\
+		(218, 217, \'93American\'94),\
+			(219, 218, \'93Slavery\'94),\
+			(220, 218, \'93Segregation\'94),\
+			(221, 218, \'93Historical Figures\'94),\
+		(222, 217, \'93Australian\'94),\
+			(223, 222, \'93The Stolen Generation\'94),\
+			(224, 222, \'93Indigenous Constitutional Rights\'94),\
+			(225, 222, \'93Mabo Case\'94),\
+         (226, 117, \'93RAAF History\'94),\
+		(227, 226, \'93Australian Flying Corps\'94),\
+			(228, 227, \'93WWI Operations\'94),\
+		(229, 226, \'93Australian Air Force\'94),\
+			(230, 229, \'93Establishment\'94),\
+			(231, 229, \'93WWII Operations\'94),\
+		(232, 226, \'93Present Day\'94),\
+			(233, 232, \'93Current Operations\'94),\
+			(234, 232, \'93Fifth Generation\'94), \
+         (235, 117, \'93Australian Army History\'94),\
+		(236, 235, \'93Pre ARA\'94),\
+			(237, 236, \'93Militias\'94),\
+			(238, 236, \'93Australian Imperial Force\'94),\
+		(239, 235, \'93Post WWII\'94),\
+			(240, 239, \'93Establishment\'94),\
+			(241, 239, \'93Operations\'94),\
+		(242, 235, \'93Current ARA\'94),\
+			(243, 242, \'93Modern Operations\'94),\
+			(244, 242, \'93Values\'94),\
+         (245, 117, \'93Royal Australian Navy History\'94),\
+		(246, 245, \'93Settlement\'94),\
+			(247, 246, \'93Royal Navy\'94),\
+		(248, 245, \'93Establishment of RAN\'94),\
+			(249, 248, \'93Ships\'94),\
+			(250, 248, \'93WWI Operations\'94);}
