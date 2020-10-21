@@ -19,7 +19,8 @@ module.exports.handler = (err, req, res, next) => {
 
     let e = {
         statusCode: statusCode,
-        message: err.message
+        message: err.message,
+        //stack = err.stack // don't send the stack because of security risk!
     };
 
     if (req.accepts("text/html")) {
@@ -27,4 +28,6 @@ module.exports.handler = (err, req, res, next) => {
     } else if (req.accepts("application/json")) {
         res.json(e);
     } else res.end();
+
+    console.error(err);
 };

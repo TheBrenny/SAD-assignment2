@@ -22,10 +22,14 @@ CREATE TABLE ClassGroup (
   PRIMARY KEY (groupID)
 );
 
+INSERT INTO ClassGroup (groupID, groupName) VALUES
+  (-1, "Groupless");
+
 CREATE TABLE Activity (
   activityID INTEGER NOT NULL,
   parentID INTEGER,
   activityName TEXT NOT NULL,
+  mandatory INTEGER NOT NULL,
   PRIMARY KEY (activityID),
   FOREIGN KEY (parentID) REFERENCES Activity (activityID)
 );

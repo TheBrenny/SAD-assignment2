@@ -122,6 +122,7 @@ class Activity extends Schema {
          *    1st pass - Look for parentID === null
          *    2nd pass - Look for parentID exists and use it
          *    3rd pass - Deep Look for parentID using ".children"
+         *    4th pass - Do 3rd pass again, but them as the "parentID"
          * We can do these while removing the elemants we've operated on
          * 
          * There's likely to be a much better way to do this, but I can't think
@@ -134,25 +135,23 @@ class Activity extends Schema {
          */
         //#endregion
 
-        depth = depth || 3; //1=parts only, 2=topics, 3=tests (all)
+        depth = parseInt(depth) || 4; //1=badges only, 2=tests, 3=topics, 4=parts (all)
         let output = [];
         let copy = [];
         if (!Array.isArray(activities)) activities = [activities];
         activities = Array.from(activities); // enforce array! (also gives me typings!)
-        let newActivity = (aid, pid, name) => Object.assign({}, {
-            activityID: aid,
-            parentID: pid,
-            activityName: name,
+        let newActivity = (a) => Object.assign({
             children: []
-        });
+        }, a);
 
         // FIRST PASS
         if (depth >= 1) {
             copy = Array.from(activities);
             for (let i = 0; i < copy.length; i++) {
                 let a = copy[i];
+
                 if (a.parentID === null) {
-                    output.push(newActivity(a.activityID, null, a.activityName));
+                    output.push(newActivity(a));
                     activities.splice(i, 1);
                 }
             }
@@ -163,13 +162,14 @@ class Activity extends Schema {
             copy = Array.from(activities);
             for (let i = 0; i < copy.length; i++) {
                 let a = copy[i];
-                let pIdx = output.length - 1;
-                for (; pIdx >= 0; pIdx--) { // go backwards so we can reach -1 without extra logic
-                    if (output[pIdx].activityID === a.parentID) break; // exit the loop, halting pIdx--
+                let badgeIDX = output.length - 1;
+
+                for (; badgeIDX >= 0; badgeIDX--) { // go backwards so we can reach -1 without extra logic
+                    if (output[badgeIDX].activityID === a.parentID) break; // exit the loop, halting pIdx--
                 }
 
-                if (pIdx >= 0) {
-                    output[pIdx].children.push(newActivity(a.activityID, a.parentID, a.activityName));
+                if (badgeIDX >= 0) {
+                    output[badgeIDX].children.push(newActivity(a));
                     activities.splice(i, 1); // remove this bc it's been opped on.
                 }
             }
@@ -180,18 +180,52 @@ class Activity extends Schema {
             copy = Array.from(activities);
             for (let i = 0; i < copy.length; i++) {
                 let a = copy[i];
-                let pIdx = output.length - 1;
-                let tIdx = -1;
-                for (; pIdx >= 0; pIdx--) { // go backwards so we can reach -1 without extra logic
-                    tIdx = output[pIdx].children.length - 1;
-                    for (; tIdx >= 0; tIdx--) {
-                        if (output[pIdx].children[tIdx].activityID === a.parentID) break; // exit the loop, halting pIdx--
+                let badgeIDX = output.length - 1;
+                let testIDX = -1;
+
+                for (; badgeIDX >= 0; badgeIDX--) { // go backwards so we can reach -1 without extra logic
+                    testIDX = output[badgeIDX].children.length - 1;
+
+                    for (; testIDX >= 0; testIDX--) {
+                        if (output[badgeIDX].children[testIDX].activityID === a.parentID) break; // exit the loop, halting pIdx--
                     }
-                    if (tIdx >= 0) break; // break because if we aren't -1, then we broke the above loop.
+
+                    if (testIDX >= 0) break; // break because if we aren't -1, then we broke the above loop.
                 }
 
-                if (pIdx >= 0) {
-                    output[pIdx].children[tIdx].children.push(newActivity(a.activityID, a.parentID, a.activityName));
+                if (badgeIDX >= 0 && testIDX >= 0) {
+                    output[badgeIDX].children[testIDX].children.push(newActivity(a));
+                    activities.splice(i, 1); // remove this bc it's been opped on.
+                }
+            }
+        }
+
+        // FOURTH PASS
+        if (depth >= 4) {
+            copy = Array.from(activities);
+            for (let i = 0; i < copy.length; i++) {
+                let a = copy[i];
+                let badgeIDX = output.length - 1;
+                let testIDX = -1;
+                let topicIDX = -1;
+
+                for (; badgeIDX >= 0; badgeIDX--) { // go backwards so we can reach -1 without extra logic
+                    testIDX = output[badgeIDX].children.length - 1;
+
+                    for (; testIDX >= 0; testIDX--) {
+                        topicIDX = output[badgeIDX].children[testIDX].children.length - 1;
+
+                        for (; topicIDX >= 0; topicIDX--) {
+                            if (output[badgeIDX].children[testIDX].children[topicIDX].activityID === a.parentID) break; // exit the loop, halting pIdx--
+                        }
+
+                        if (topicIDX >= 0) break; // break because if we aren't -1, then we broke the above loop.
+                    }
+                    if (testIDX >= 0) break;
+                }
+
+                if (badgeIDX >= 0 && testIDX >= 0 && topicIDX >= 0) {
+                    output[badgeIDX].children[testIDX].children[topicIDX].children.push(newActivity(a));
                     activities.splice(i, 1); // remove this bc it's been opped on.
                 }
             }
