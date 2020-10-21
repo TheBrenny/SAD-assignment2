@@ -56,7 +56,8 @@ router.get('/students/:id(\\d+)', async (req, res) => {
 });
 router.get('/students/new', async (req, res) => {
     res.render('student_new', {
-        ...getPageData(req, res)
+        ...getPageData(req, res),
+        groups: await (fetchAPI(req, "/groups"))
     });
 });
 

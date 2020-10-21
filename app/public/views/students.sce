@@ -1,6 +1,6 @@
 [[i= partials/header ]]
 
-<div class="studentHeader">
+<div class="actionButtons">
     <input placeholder="Search..." type="text" class="searchbox" value="[[ searchTerm ]]">
     <div class="btn search" target="search">Search</div>
     <div class="btn newStudent" target="new">New Student</div>

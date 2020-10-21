@@ -73,7 +73,9 @@ router.get("/groups", async (req, res, next) => {
         .catch(dbError(next));
 });
 router.post("/groups", async (req, res, next) => {
-    db.exec(db.templateFromFile("group.new", ClassGroup.buildFromRow(req.body)))
+    Promise.resolve()
+        .then(() => db.templateFromFile("group.new", ClassGroup.buildFromRow(req.body)))
+        .then(db.exec)
         .then(success(res))
         .catch(dbError(next));
 });
@@ -93,15 +95,17 @@ router.get("/students", async (_, res, next) => {
         .then(respond(res))
         .catch(dbError(next));
 });
-router.post("/students", async (req, res, next) => {
-    let students = Student.buildFromRow(req.body);
+router.post("/students/new", async (req, res, next) => {
+    let students = req.body;
     if (!Array.isArray(students)) students = [students];
+    students.forEach(s => {
+        s.studentID = null;
+        s.groupID = parseInt(s.groupID || "-1");
+    }); // enforce null and typecheck
 
-    students.forEach(s => s.studentID = "NULL"); // enforce a "null"ed studentID
-
-    let sqlQuery = db.templateFromFile("student.new", students);
-
-    db.exec(sqlQuery)
+    Promise.resolve()
+        .then(() => db.templateFromFile("student.new", Student.buildFromRow(students)))
+        .then(db.exec)
         .then(success(res))
         .catch(dbError(next));
 });

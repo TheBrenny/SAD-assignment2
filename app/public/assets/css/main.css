@@ -8,11 +8,21 @@ html {
 app {
   display: flex;
   flex-flow: column;
-  margin: 1rem 2.5rem; }
+  margin: 1rem 2.5rem;
+  gap: 1rem; }
   @media (min-width: 1024px) {
     app {
       max-width: calc(1024px - 2.5rem * 2);
       margin: 1rem auto; } }
+
+.hr {
+  border-bottom: 1.25px solid #222222;
+  width: 90%;
+  align-self: center; }
+
+.felx-br {
+  flex-basis: 100%;
+  height: 0; }
 
 blockquote.error {
   background: #AAAAAA;
@@ -22,7 +32,7 @@ blockquote.error {
   border-image: linear-gradient(to bottom, #D69F40, #CC3E1D) 1 100%;
   color: #444444; }
 
-div.flex {
+.flex {
   display: flex; }
 
 div.navbar {
@@ -79,16 +89,17 @@ img {
   width: inherit;
   height: inherit; }
 
-.studentHeader {
+.actionButtons {
   display: flex;
   justify-content: space-between;
-  gap: 3rem; }
-  .studentHeader > .searchbox {
-    width: 100%; }
-  .studentHeader > .newStudent {
-    width: 250px; }
+  gap: 1rem; }
+  .actionButtons > input {
+    flex-grow: 1; }
+  .actionButtons > .btn {
+    width: 150px; }
 
-input.searchbox {
+input,
+select {
   border-radius: 0.6rem;
   padding: 0.5em !important;
   font-size: 1.3rem;
@@ -97,7 +108,18 @@ input.searchbox {
   box-sizing: border-box;
   transition: border 0.2s;
   border-bottom: 0.2em solid rgba(186, 230, 23, 0); }
-  input.searchbox:hover, input.searchbox:focus {
+  input[disabled],
+  select[disabled] {
+    color: #444444;
+    font-weight: 100;
+    font-style: italic; }
+    input[disabled]:hover, input[disabled]:focus,
+    select[disabled]:hover,
+    select[disabled]:focus {
+      border-bottom: 0.2em solid #CC3E1D !important; }
+  input:hover, input:focus,
+  select:hover,
+  select:focus {
     border-bottom: 0.2em solid #BAE617;
     outline: none; }
 
@@ -105,14 +127,34 @@ input.searchbox {
   background: #BAE617;
   padding: 1rem;
   border-radius: 0.6rem;
-  cursor: pointer;
   transition: 0.2s ease-out;
   user-select: none;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center; }
-  .btn:hover {
-    background: #82a010; }
-  .btn:active {
-    background: #5c720b; }
+  .btn:not([disabled]) {
+    cursor: pointer; }
+  .btn:not([disabled]):hover {
+    filter: brightness(85%); }
+  .btn:not([disabled]):active {
+    filter: brightness(75%); }
+  .btn.red {
+    background: #CC3E1D; }
+
+.studentBlock {
+  gap: 1rem;
+  align-items: center; }
+
+.studentInfo {
+  flex-flow: row wrap;
+  flex-grow: 1;
+  gap: 1em; }
+  .studentInfo > label {
+    flex-basis: calc(16% - 1em);
+    text-align: right;
+    align-self: center; }
+  .studentInfo > input,
+  .studentInfo > select {
+    flex-basis: 80%;
+    flex-grow: 1; }

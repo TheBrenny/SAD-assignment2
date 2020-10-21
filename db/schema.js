@@ -23,8 +23,12 @@ class Schema {
             if (v === undefined) return true; // undefined is okay
             if (v === null) return true; // null is okay
             if (Array.isArray(v[1])) {
+                if (v[0] === undefined) return true;
+                if (v[0] === null) return true;
                 return Array.from(v[1]).includes(v[0].constructor.name);
             }
+            if (v[0] === undefined) return true; // undefined is okay
+            if (v[0] === null) return true; // null is okay
             return v[0].constructor.name === v[1];
         }
     }
@@ -211,6 +215,7 @@ class ActivityCompleted extends Schema {
 
 class BadSchemaError extends Error {
     constructor(msg, args) {
+        super();
         this.message = msg + ': [' + args.join(', ') + ']';
     }
 }
