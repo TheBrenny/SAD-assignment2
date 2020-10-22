@@ -5,7 +5,6 @@
  * 02 Oct 20
  */
 const test = require("ava");
-// test.todo('testing db comes later when we have more things to test!');
 require("../util_and_polyfill");
 const db = require("../db/db");
 const schema = require("../db/schema");

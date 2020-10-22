@@ -10,7 +10,7 @@ const router = express.Router();
 const nodeFetch = require("node-fetch");
 
 function fetchAPI(req, path) {
-    let target = req.protocol + "://" + req.host + "/api" + path;
+    let target = req.protocol + "://" + req.hostname + "/api" + path;
     return nodeFetch(target, {
         headers: {
             'Accept': 'application/json',

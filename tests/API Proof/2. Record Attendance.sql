@@ -1,0 +1,1 @@
+SELECT * FROM AttendanceRecord WHERE student = 1;

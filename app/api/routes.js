@@ -121,14 +121,19 @@ router.post("/activities/completions/record", async (req, res, next) => {
 // ====== ATTENDANCE ======
 //#region 
 router.get("/attendance", async (req, res, next) => {
-    db.all("SELECT * FROM AttendanceRecord;")
+    db.all("SELECT * FROM AttendanceRecord ORDER BY recordDate ASC;")
         .then(respond(res))
         .catch(dbError(next, req));
 });
 router.get("/attendance/:sid(\\d+)", async (req, res, next) => {
     let sid = req.params.sid;
 
-    db.all(`SELECT * FROM AttendanceRecord WHERE student = ${sid};`)
+    db.all(`SELECT * FROM AttendanceRecord WHERE student = ${sid} ORDER BY recordDate ASC;`)
+        .then(respond(res))
+        .catch(dbError(next, req));
+});
+router.get("/attendance/types", async (req, res, next) => {
+    db.all("SELECT * FROM Attendance;")
         .then(respond(res))
         .catch(dbError(next, req));
 });
