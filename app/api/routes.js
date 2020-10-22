@@ -75,18 +75,18 @@ router.post("/activities/completions/record", async (req, res, next) => {
                 }));
 
                 // set 'c' to follow the above schema -- also updates to add the completion date!
-                c = acts.find(a => a.activityID == c.activityID);
+                c = acts.find(a => a.activityID == c.activityID); // jshint ignore:line
                 if (c === null) continue; // should this be actually be a 500 error?
 
                 // get the parent
                 if (c.parentID === null) continue; // this is the top aka the badge
-                let parent = acts.find(a => a.activityID == c.parentID);
+                let parent = acts.find(a => a.activityID == c.parentID); // jshint ignore:line
                 if (typeof parent === "undefined") continue; // this should be a 500 error?
                 if (parent.completionDate != null) continue;
                 // TODO: FINISH THIS -- IT'S 0306 and I'm going to bed.
 
                 // get all children items (pID === p.id) (following the above schema)
-                let children = acts.filter(a => a.parentID === parent.activityID);
+                let children = acts.filter(a => a.parentID === parent.activityID); // jshint ignore:line
                 let mandatory = children.filter(a => a.mandatory > 0);
                 let optional = children.filter(a => a.mandatory == 0);
 
@@ -112,7 +112,6 @@ router.post("/activities/completions/record", async (req, res, next) => {
                 // completions.splice(c) -- not doing this because we can just walk past!
             }
         })
-        // TODO: then(), we want to recursively (and fail-fast) check the parents to try tick them as complete
         .then(success(res))
         .catch(dbError(next, req));
 });
